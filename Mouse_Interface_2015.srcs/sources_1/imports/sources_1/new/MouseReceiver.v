@@ -33,13 +33,11 @@ module MouseReceiver(
     output [3:0]        STATE
 );
 
+
+
 // define state parameters
 localparam STATE_IDLE        = 4'd0;
-localparam STATE_START       = 4'd1;
-localparam STATE_READ_L      = 4'd2;
-localparam STATE_READ_H      = 4'd3;
-localparam STATE_PARITY      = 4'd4;
-localparam STATE_STOP        = 4'd5;
+localparam STATE_READ        = 4'd2;
 
 // define error codes
 localparam NO_ERROR          = 2'd0;
@@ -54,6 +52,7 @@ reg  [1:0]      Curr_BYTE_ERROR_CODE;
 reg  [3:0]      Curr_State;
 reg  [3:0]      Curr_bit_counter; 
 reg             Curr_TIMER_RESET;
+reg             CLK_MOUSE_DLY;
 
 // Combinational Regs
 reg             Next_BYTE_READY;
@@ -65,6 +64,7 @@ reg             Next_TIMER_RESET;
 
 // wires
 wire            parity_bit;
+wire            falling_edge;
 
 // Reset Counter for stuck states
 MouseCounter # (
@@ -77,9 +77,12 @@ MouseCounter # (
     .TRIG_OUT(TIMER_TRIG),
     .COUNT()
 );
-
-// continuous assignment of parity bit
+always@(posedge CLK)
+    CLK_MOUSE_DLY <= CLK_MOUSE_IN;
+    
+// continuous assignment of wires
 assign parity_bit = ~(^BYTE_READ);
+assign falling_edge = ~CLK_MOUSE_IN & CLK_MOUSE_DLY;
 
 // Combinational Logic
 always@(*) 
@@ -101,89 +104,50 @@ begin
             Next_bit_counter = 'h0;
             Next_TIMER_RESET = 'h1;
             if (CLK_MOUSE_IN && READ_ENABLE)
-                Next_State = STATE_START;
+                Next_State = STATE_READ;
         end
+     
         
-        STATE_START:    // Wait for Start Bit
+        STATE_READ:   // Check counter at CLK lo
         begin
             Next_TIMER_RESET = 'h0;
             if (TIMER_TRIG)
                 Next_State = STATE_IDLE;
-            else if (~CLK_MOUSE_IN) 
-            begin
-                Next_TIMER_RESET = 'h1;
-                if (~DATA_MOUSE_IN)
-                    Next_State = STATE_READ_L;
-                else
-                begin
-                    Next_BYTE_ERROR_CODE = ERROR_START_BIT;
-                    Next_BYTE_READY = 1'h1;
-                    Next_State = STATE_IDLE;
-                end
-            end         
-        end
-        
-        STATE_READ_L:   // Check counter at CLK lo
-        begin
-            Next_TIMER_RESET = 'h0;
-            if (TIMER_TRIG)
-                Next_State = STATE_IDLE;
-            else if (CLK_MOUSE_IN)
+            else if (falling_edge)
             begin
                 Next_bit_counter = Curr_bit_counter + 1;
                 Next_TIMER_RESET = 'h1;
-                if (Curr_bit_counter < 'h8)
-                    Next_State = STATE_READ_H;
-                else if (Curr_bit_counter == 'h8)
-                    Next_State = STATE_PARITY;
+                if (Curr_bit_counter == 'b0)
+                begin
+                    if (DATA_MOUSE_IN)
+                    begin
+                        Next_BYTE_ERROR_CODE = ERROR_START_BIT;
+                        Next_BYTE_READY = 1'h1;
+                        Next_State = STATE_IDLE;
+                    end
+                end
+                else if (Curr_bit_counter < 'h9)
+                    Next_BYTE_READ = {DATA_MOUSE_IN,Curr_BYTE_READ[7:1]}; // Update Shift Reg
+                else if (Curr_bit_counter == 'h9)
+                begin
+                    if (DATA_MOUSE_IN != parity_bit)
+                    begin                      
+                        Next_BYTE_READY = 1'h1;
+                        Next_BYTE_ERROR_CODE = ERROR_PARITY;
+                        Next_State = STATE_IDLE;
+                    end
+                end
                 else
-                    Next_State = STATE_STOP;             
+                begin
+                    Next_BYTE_READY = 1'h1;
+                    if (DATA_MOUSE_IN)
+                        Next_State = STATE_IDLE;
+                    else 
+                        Next_BYTE_ERROR_CODE = ERROR_STOP_BIT;
+                end        
             end 
         end
-        
-        STATE_READ_H:   // Update Data at CLK hi
-        begin
-            Next_TIMER_RESET = 'h0;
-            if (TIMER_TRIG)
-                Next_State = STATE_IDLE;
-            else if (~CLK_MOUSE_IN)
-            begin
-                Next_BYTE_READ = {DATA_MOUSE_IN,Curr_BYTE_READ[7:1]}; // Update Shift Reg
-                Next_State = STATE_READ_L;
-                Next_TIMER_RESET = 'h1;
 
-            end         
-        end
-        
-        STATE_PARITY:   // Check parity at CLK hi
-        begin
-            if (~CLK_MOUSE_IN)
-            begin
-                if (DATA_MOUSE_IN != parity_bit)
-                begin                      
-                    Next_BYTE_READY = 1'h1;
-                    Next_BYTE_ERROR_CODE = ERROR_PARITY;
-                    Next_State = STATE_IDLE;
-                end
-                else 
-                begin
-                    Next_State = STATE_READ_L;
-                end
-            end
-        end
-        
-        STATE_STOP:     // Detect Stop bit when CLK lo
-        begin
-            if (~CLK_MOUSE_IN)
-            begin
-                Next_BYTE_READY = 1'h1;
-                if (DATA_MOUSE_IN)
-                    Next_State = STATE_IDLE;
-                else 
-                    Next_BYTE_ERROR_CODE = ERROR_STOP_BIT;
-            end
-        end
-        
         default:        // return to idle in default case
             Next_State = STATE_IDLE;
     endcase    

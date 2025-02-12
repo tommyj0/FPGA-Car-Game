@@ -169,7 +169,7 @@ begin
                 Next_State = STATE_TRANS_ACK_L;
             end
          end
-         STATE_TRANS_ACK_L: // Confirm enf of ACK
+         STATE_TRANS_ACK_L: // Confirm end of ACK
          begin
             if (SEND_BYTE == 1'h0) // wait for release
                 Next_State = STATE_IDLE;

@@ -1,10 +1,10 @@
 -- Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2015.2 (lin64) Build 1266856 Fri Jun 26 16:35:25 MDT 2015
--- Date        : Sun Feb  9 18:15:31 2025
--- Host        : tommyj-Vivobook-ASUSLaptop-X1505VA-X1505VA running 64-bit Ubuntu 24.04.1 LTS
+-- Date        : Wed Feb 12 12:40:56 2025
+-- Host        : tlf19.see.ed.ac.uk running 64-bit Scientific Linux release 7.9 (Nitrogen)
 -- Command     : write_vhdl -force -mode synth_stub
---               /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.srcs/sources_1/ip/ila_0/ila_0_stub.vhdl
+--               /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.srcs/sources_1/ip/ila_0/ila_0_stub.vhdl
 -- Design      : ila_0
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7a35tcpg236-1

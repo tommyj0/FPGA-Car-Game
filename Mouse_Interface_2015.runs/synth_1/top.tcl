@@ -24,6 +24,9 @@ read_verilog -library xil_defaultlib {
   /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.srcs/sources_1/imports/sources_1/new/MouseTransceiver.v
   /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.srcs/sources_1/imports/sources_1/imports/Downloads/seg7decoder.v
   /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.srcs/sources_1/imports/sources_1/new/top.v
+  /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.srcs/sources_1/new/Processor.v
+  /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.srcs/sources_1/new/Timer.v
+  /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.srcs/sources_1/new/ALU.v
 }
 read_xdc /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.srcs/constrs_1/imports/new/MouseXDC.xdc
 set_property used_in_implementation false [get_files /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.srcs/constrs_1/imports/new/MouseXDC.xdc]
