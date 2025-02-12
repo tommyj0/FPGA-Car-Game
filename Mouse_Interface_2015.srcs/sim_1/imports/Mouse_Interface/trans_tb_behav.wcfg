@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="trans_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="trans_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="1,500.000001 us"></ZoomEndTime>
+      <Cursor1Time time="1,500.000000 us"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="138"></NameColumnWidth>
+      <ValueColumnWidth column_width="82"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="18" />
+   <wvobject type="logic" fp_name="/trans_tb/CLK">
+      <obj_property name="ElementShortName">CLK</obj_property>
+      <obj_property name="ObjectShortName">CLK</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/trans_tb/RESET">
+      <obj_property name="ElementShortName">RESET</obj_property>
+      <obj_property name="ObjectShortName">RESET</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/trans_tb/CLK_MOUSE_reg">
+      <obj_property name="ElementShortName">CLK_MOUSE_reg</obj_property>
+      <obj_property name="ObjectShortName">CLK_MOUSE_reg</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/trans_tb/CLK_MOUSE">
+      <obj_property name="ElementShortName">CLK_MOUSE</obj_property>
+      <obj_property name="ObjectShortName">CLK_MOUSE</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/trans_tb/CLK_MOUSE_OUT_EN">
+      <obj_property name="ElementShortName">CLK_MOUSE_OUT_EN</obj_property>
+      <obj_property name="ObjectShortName">CLK_MOUSE_OUT_EN</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/trans_tb/CLK_MOUSE_TRANS">
+      <obj_property name="ElementShortName">CLK_MOUSE_TRANS</obj_property>
+      <obj_property name="ObjectShortName">CLK_MOUSE_TRANS</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/trans_tb/DATA_MOUSE">
+      <obj_property name="ElementShortName">DATA_MOUSE</obj_property>
+      <obj_property name="ObjectShortName">DATA_MOUSE</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/trans_tb/DATA_MOUSE_reg">
+      <obj_property name="ElementShortName">DATA_MOUSE_reg</obj_property>
+      <obj_property name="ObjectShortName">DATA_MOUSE_reg</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/trans_tb/DATA_MOUSE_TRANS">
+      <obj_property name="ElementShortName">DATA_MOUSE_TRANS</obj_property>
+      <obj_property name="ObjectShortName">DATA_MOUSE_TRANS</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/trans_tb/DATA_MOUSE_OUT_EN">
+      <obj_property name="ElementShortName">DATA_MOUSE_OUT_EN</obj_property>
+      <obj_property name="ObjectShortName">DATA_MOUSE_OUT_EN</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/trans_tb/BYTE_TO_SEND">
+      <obj_property name="ElementShortName">BYTE_TO_SEND[7:0]</obj_property>
+      <obj_property name="ObjectShortName">BYTE_TO_SEND[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/trans_tb/SEND_BYTE">
+      <obj_property name="ElementShortName">SEND_BYTE</obj_property>
+      <obj_property name="ObjectShortName">SEND_BYTE</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/trans_tb/BYTE_SENT">
+      <obj_property name="ElementShortName">BYTE_SENT</obj_property>
+      <obj_property name="ObjectShortName">BYTE_SENT</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/trans_tb/DATA_MOUSE_OUT">
+      <obj_property name="ElementShortName">DATA_MOUSE_OUT</obj_property>
+      <obj_property name="ObjectShortName">DATA_MOUSE_OUT</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/trans_tb/DATA_MOUSE_OUT_TRANS">
+      <obj_property name="ElementShortName">DATA_MOUSE_OUT_TRANS</obj_property>
+      <obj_property name="ObjectShortName">DATA_MOUSE_OUT_TRANS</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/trans_tb/u_trans/data_index">
+      <obj_property name="ElementShortName">data_index[3:0]</obj_property>
+      <obj_property name="ObjectShortName">data_index[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/trans_tb/u_trans/Curr_State">
+      <obj_property name="ElementShortName">Curr_State[3:0]</obj_property>
+      <obj_property name="ObjectShortName">Curr_State[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/trans_tb/u_trans/Hold_Counter_RESET">
+      <obj_property name="ElementShortName">Hold_Counter_RESET</obj_property>
+      <obj_property name="ObjectShortName">Hold_Counter_RESET</obj_property>
+   </wvobject>
+</wave_config>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="receiver_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="receiver_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="38.043479 us"></ZoomEndTime>
+      <Cursor1Time time="1,500.000000 us"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="132"></NameColumnWidth>
+      <ValueColumnWidth column_width="82"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="12" />
+   <wvobject type="array" fp_name="/receiver_tb/BYTE_TO_RECEIVE">
+      <obj_property name="ElementShortName">BYTE_TO_RECEIVE[7:0]</obj_property>
+      <obj_property name="ObjectShortName">BYTE_TO_RECEIVE[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/receiver_tb/bit_counter">
+      <obj_property name="ElementShortName">bit_counter[3:0]</obj_property>
+      <obj_property name="ObjectShortName">bit_counter[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/receiver_tb/PACKET_TO_RECEIVE">
+      <obj_property name="ElementShortName">PACKET_TO_RECEIVE[10:0]</obj_property>
+      <obj_property name="ObjectShortName">PACKET_TO_RECEIVE[10:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/receiver_tb/CLK">
+      <obj_property name="ElementShortName">CLK</obj_property>
+      <obj_property name="ObjectShortName">CLK</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/receiver_tb/RESET">
+      <obj_property name="ElementShortName">RESET</obj_property>
+      <obj_property name="ObjectShortName">RESET</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/receiver_tb/READ_ENABLE">
+      <obj_property name="ElementShortName">READ_ENABLE</obj_property>
+      <obj_property name="ObjectShortName">READ_ENABLE</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/receiver_tb/CLK_MOUSE_IN">
+      <obj_property name="ElementShortName">CLK_MOUSE_IN</obj_property>
+      <obj_property name="ObjectShortName">CLK_MOUSE_IN</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/receiver_tb/DATA_MOUSE_IN">
+      <obj_property name="ElementShortName">DATA_MOUSE_IN</obj_property>
+      <obj_property name="ObjectShortName">DATA_MOUSE_IN</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/receiver_tb/BYTE_READ">
+      <obj_property name="ElementShortName">BYTE_READ[7:0]</obj_property>
+      <obj_property name="ObjectShortName">BYTE_READ[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/receiver_tb/BYTE_READY">
+      <obj_property name="ElementShortName">BYTE_READY</obj_property>
+      <obj_property name="ObjectShortName">BYTE_READY</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/receiver_tb/BYTE_ERROR_CODE">
+      <obj_property name="ElementShortName">BYTE_ERROR_CODE[1:0]</obj_property>
+      <obj_property name="ObjectShortName">BYTE_ERROR_CODE[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/receiver_tb/STATE">
+      <obj_property name="ElementShortName">STATE[3:0]</obj_property>
+      <obj_property name="ObjectShortName">STATE[3:0]</obj_property>
+   </wvobject>
+</wave_config>

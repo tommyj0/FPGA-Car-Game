@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<wave_config>
+	<wave_state>
+	</wave_state>
+	<db_ref_list>
+		<db_ref path="/home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.hw/hw_1/wave/hw_ila_data_1/hw_ila_data_1.wdb" id="1" type="auto">
+			<top_modules>
+				<top_module name="top">
+				</top_module>
+			</top_modules>
+		</db_ref>
+	</db_ref_list>
+	<WVObjectSize size="12">
+	</WVObjectSize>
+	<wvobject fp_name="u_MouseTransceiver/SR" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">u_MouseTransceiver/SR[0:0]</obj_property>
+		<obj_property name="ObjectShortName">u_MouseTransceiver/SR[0:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="u_MouseTransceiver/probe1" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">u_MouseTransceiver/probe1[0:0]</obj_property>
+		<obj_property name="ObjectShortName">u_MouseTransceiver/probe1[0:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="u_MouseTransceiver/probe2" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">u_MouseTransceiver/probe2[0:0]</obj_property>
+		<obj_property name="ObjectShortName">u_MouseTransceiver/probe2[0:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="u_MouseTransceiver/Receiver_BYTE_ERROR_CODE" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">u_MouseTransceiver/Receiver_BYTE_ERROR_CODE[1:0]</obj_property>
+		<obj_property name="ObjectShortName">u_MouseTransceiver/Receiver_BYTE_ERROR_CODE[1:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="u_MouseTransceiver/MASTER_STATE_CODE" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">u_MouseTransceiver/MASTER_STATE_CODE[3:0]</obj_property>
+		<obj_property name="ObjectShortName">u_MouseTransceiver/MASTER_STATE_CODE[3:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="u_MouseTransceiver/Transmitter_BYTE_TO_SEND" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">u_MouseTransceiver/Transmitter_BYTE_TO_SEND[7:0]</obj_property>
+		<obj_property name="ObjectShortName">u_MouseTransceiver/Transmitter_BYTE_TO_SEND[7:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="u_MouseTransceiver/Receiver_BYTE_READ" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">u_MouseTransceiver/Receiver_BYTE_READ[7:0]</obj_property>
+		<obj_property name="ObjectShortName">u_MouseTransceiver/Receiver_BYTE_READ[7:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="u_MouseTransceiver/CLK_1M" type="logic" db_ref_id="1">
+		<obj_property name="ElementShortName">u_MouseTransceiver/CLK_1M</obj_property>
+		<obj_property name="ObjectShortName">u_MouseTransceiver/CLK_1M</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="u_MouseTransceiver/Receiver_STATE" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">u_MouseTransceiver/Receiver_STATE[3:0]</obj_property>
+		<obj_property name="ObjectShortName">u_MouseTransceiver/Receiver_STATE[3:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="u_MouseTransceiver/Transmitter_STATE" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">u_MouseTransceiver/Transmitter_STATE[3:0]</obj_property>
+		<obj_property name="ObjectShortName">u_MouseTransceiver/Transmitter_STATE[3:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="u_MouseTransceiver/MOUSE_DX" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">u_MouseTransceiver/MOUSE_DX[7:0]</obj_property>
+		<obj_property name="ObjectShortName">u_MouseTransceiver/MOUSE_DX[7:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="u_MouseTransceiver/MOUSE_DY" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">u_MouseTransceiver/MOUSE_DY[7:0]</obj_property>
+		<obj_property name="ObjectShortName">u_MouseTransceiver/MOUSE_DY[7:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+</wave_config>
+
