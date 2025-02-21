@@ -1,7 +1,7 @@
 Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2015.2 (lin64) Build 1266856 Fri Jun 26 16:35:25 MDT 2015
-| Date         : Fri Feb 21 14:15:20 2025
+| Date         : Fri Feb 21 15:26:14 2025
 | Host         : tommyj-Vivobook-ASUSLaptop-X1505VA-X1505VA running 64-bit Ubuntu 24.04.2 LTS
 | Command      : report_utilization -file top_utilization_synth.rpt -pb top_utilization_synth.pb
 | Design       : top
@@ -30,14 +30,14 @@ Table of Contents
 +-------------------------+------+-------+-----------+-------+
 |        Site Type        | Used | Fixed | Available | Util% |
 +-------------------------+------+-------+-----------+-------+
-| Slice LUTs*             |  292 |     0 |     20800 |  1.40 |
-|   LUT as Logic          |  292 |     0 |     20800 |  1.40 |
+| Slice LUTs*             |  340 |     0 |     20800 |  1.63 |
+|   LUT as Logic          |  340 |     0 |     20800 |  1.63 |
 |   LUT as Memory         |    0 |     0 |      9600 |  0.00 |
-| Slice Registers         |  160 |     0 |     41600 |  0.38 |
-|   Register as Flip Flop |  160 |     0 |     41600 |  0.38 |
+| Slice Registers         |  167 |     0 |     41600 |  0.40 |
+|   Register as Flip Flop |  167 |     0 |     41600 |  0.40 |
 |   Register as Latch     |    0 |     0 |     41600 |  0.00 |
-| F7 Muxes                |    1 |     0 |     16300 | <0.01 |
-| F8 Muxes                |    0 |     0 |      8150 |  0.00 |
+| F7 Muxes                |    9 |     0 |     16300 |  0.06 |
+| F8 Muxes                |    4 |     0 |      8150 |  0.05 |
 +-------------------------+------+-------+-----------+-------+
 * Warning! The Final LUT count, after physical optimizations and full implementation, is typically lower. Run opt_design after synthesis, if not already completed, for a more realistic count.
 
@@ -56,8 +56,8 @@ Table of Contents
 | 0     |          Yes |           - |            - |
 | 0     |          Yes |           - |          Set |
 | 0     |          Yes |           - |        Reset |
-| 6     |          Yes |         Set |            - |
-| 154   |          Yes |       Reset |            - |
+| 0     |          Yes |         Set |            - |
+| 167   |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -90,7 +90,7 @@ Table of Contents
 +-----------------------------+------+-------+-----------+-------+
 |          Site Type          | Used | Fixed | Available | Util% |
 +-----------------------------+------+-------+-----------+-------+
-| Bonded IOB                  |   26 |     0 |       106 | 24.53 |
+| Bonded IOB                  |   27 |     0 |       106 | 25.47 |
 | Bonded IPADs                |    0 |     0 |        10 |  0.00 |
 | Bonded OPADs                |    0 |     0 |         4 |  0.00 |
 | PHY_CONTROL                 |    0 |     0 |         5 |  0.00 |
@@ -148,19 +148,19 @@ Table of Contents
 +----------+------+---------------------+
 | Ref Name | Used | Functional Category |
 +----------+------+---------------------+
-| FDRE     |  154 |        Flop & Latch |
-| LUT5     |   97 |                 LUT |
-| LUT6     |   83 |                 LUT |
+| FDRE     |  167 |        Flop & Latch |
+| LUT6     |   93 |                 LUT |
+| LUT5     |   87 |                 LUT |
 | LUT1     |   62 |                 LUT |
-| LUT2     |   34 |                 LUT |
-| LUT4     |   30 |                 LUT |
-| LUT3     |   22 |                 LUT |
-| CARRY4   |   22 |          CarryLogic |
+| LUT2     |   55 |                 LUT |
+| LUT3     |   46 |                 LUT |
+| LUT4     |   42 |                 LUT |
+| CARRY4   |   30 |          CarryLogic |
 | OBUF     |   21 |                  IO |
-| FDSE     |    6 |        Flop & Latch |
-| IBUF     |    5 |                  IO |
+| MUXF7    |    9 |               MuxFx |
+| IBUF     |    6 |                  IO |
+| MUXF8    |    4 |               MuxFx |
 | OBUFT    |    2 |                  IO |
-| MUXF7    |    1 |               MuxFx |
 | BUFG     |    1 |               Clock |
 +----------+------+---------------------+
 

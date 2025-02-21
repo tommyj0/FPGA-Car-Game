@@ -24,7 +24,7 @@ module top(
     // Standard Inputs
     input           RESET,
     input           CLK,
-    input           SENS_CTRL,
+    input  [1:0]    SENS_CTRL,
     // IO - Mouse Side
     inout           CLK_MOUSE,
     inout           DATA_MOUSE,

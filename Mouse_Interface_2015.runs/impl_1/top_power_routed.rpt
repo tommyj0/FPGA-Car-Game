@@ -1,7 +1,7 @@
 Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2015.2 (lin64) Build 1266856 Fri Jun 26 16:35:25 MDT 2015
-| Date             : Fri Feb 21 14:16:06 2025
+| Date             : Fri Feb 21 15:27:00 2025
 | Host             : tommyj-Vivobook-ASUSLaptop-X1505VA-X1505VA running 64-bit Ubuntu 24.04.2 LTS
 | Command          : report_power -file top_power_routed.rpt -pb top_power_summary_routed.pb
 | Design           : top
@@ -30,7 +30,7 @@ Table of Contents
 ----------
 
 +--------------------------+-------+
-| Total On-Chip Power (W)  | 0.078 |
+| Total On-Chip Power (W)  | 0.079 |
 | Dynamic (W)              | 0.005 |
 | Device Static (W)        | 0.074 |
 | Effective TJA (C/W)      | 5.0   |
@@ -50,20 +50,20 @@ Table of Contents
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
 | Clocks                   |    <0.001 |        4 |       --- |             --- |
-| Slice Logic              |     0.001 |     6294 |       --- |             --- |
-|   LUT as Logic           |     0.001 |     2034 |     20800 |            9.78 |
-|   Register               |    <0.001 |     2816 |     41600 |            6.77 |
-|   CARRY4                 |    <0.001 |      109 |      8150 |            1.34 |
+| Slice Logic              |     0.001 |     6378 |       --- |             --- |
+|   LUT as Logic           |     0.001 |     2083 |     20800 |           10.01 |
+|   Register               |    <0.001 |     2823 |     41600 |            6.79 |
+|   CARRY4                 |    <0.001 |      117 |      8150 |            1.44 |
 |   LUT as Distributed RAM |    <0.001 |       24 |      9600 |            0.25 |
-|   F7/F8 Muxes            |    <0.001 |      138 |     32600 |            0.42 |
+|   F7/F8 Muxes            |    <0.001 |      150 |     32600 |            0.46 |
 |   LUT as Shift Register  |    <0.001 |      223 |      9600 |            2.32 |
 |   BUFG                   |    <0.001 |        1 |        32 |            3.13 |
 |   Others                 |     0.000 |      503 |       --- |             --- |
-| Signals                  |     0.002 |     4377 |       --- |             --- |
+| Signals                  |     0.002 |     4393 |       --- |             --- |
 | Block RAM                |    <0.001 |       46 |        50 |           92.00 |
-| I/O                      |    <0.001 |       26 |       106 |           24.53 |
+| I/O                      |    <0.001 |       27 |       106 |           25.47 |
 | Static Power             |     0.074 |          |           |                 |
-| Total                    |     0.078 |          |           |                 |
+| Total                    |     0.079 |          |           |                 |
 +--------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -226,9 +226,9 @@ Table of Contents
 |     u_MouseReceiver                                                     |    <0.001 |
 |     u_MouseTransmitter                                                  |    <0.001 |
 |       HoldCounter                                                       |    <0.001 |
-|     u_ila_0                                                             |     0.003 |
-|       inst                                                              |     0.003 |
-|         ila_core_inst                                                   |     0.003 |
+|     u_ila_0                                                             |     0.002 |
+|       inst                                                              |     0.002 |
+|         ila_core_inst                                                   |     0.002 |
 |           ila_trace_memory_inst                                         |    <0.001 |
 |             SUBCORE_RAM_BLK_MEM_1.trace_block_memory                    |    <0.001 |
 |               inst_blk_mem_gen                                          |    <0.001 |

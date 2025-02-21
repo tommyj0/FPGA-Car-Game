@@ -38,6 +38,7 @@ call ADDR     call subroutine
 ret           return from subroutine
 '''
 
+# TODO implement labels, can't think of anything else that we need
 math_lut = {
   "add"   : 0x04,
   "sub"   : 0x14,

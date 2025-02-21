@@ -24,7 +24,7 @@ module MouseTransceiver(
     // Standard Inputs
     input           RESET,
     input           CLK,
-    input           SENS_CTRL,
+    input  [1:0]    SENS_CTRL,
     // IO - Mouse Side
     inout           CLK_MOUSE,
     inout           DATA_MOUSE,
@@ -37,8 +37,8 @@ module MouseTransceiver(
     output [2:0]    BTNS
 );
 
-reg [7:0] MouseX;
-reg [7:0] MouseY;
+reg [10:0] MouseX;
+reg [10:0] MouseY;
 
 // define Limits
 parameter [7:0] MouseLimitX = 160;
@@ -55,6 +55,8 @@ wire            Transmitter_SEND_BYTE;
 wire [7:0]      Transmitter_BYTE_TO_SEND;
 wire            Transmitter_BYTE_SENT;
 wire [3:0]      Transmitter_STATE;
+wire [10:0]     MouseLimitX_scaled;
+wire [10:0]     MouseLimitY_scaled;
 
 wire            Receiver_READ_ENABLE;
 wire [7:0]      Receiver_BYTE_READ;
@@ -72,26 +74,23 @@ wire                XSIGN;
 wire                YSIGN;
 wire                XOF;
 wire                YOF;
-wire signed [8:0]   OVERFLOWX;
-wire signed [8:0]   OVERFLOWY;
-wire signed [8:0]   MouseDX;
-wire signed [8:0]   MouseDY;
+wire signed [11:0]   OVERFLOWX;
+wire signed [11:0]   OVERFLOWY;
+wire signed [11:0]   MouseDX;
+wire signed [11:0]   MouseDY;
 
 // Assign outputs
-assign MouseXout = MouseX;
-assign MouseYout = MouseY;
+assign MouseXout = MouseX >> SENS_CTRL;
+assign MouseYout = MouseY >> SENS_CTRL;
 assign XS = XSIGN;
 assign YS = YSIGN;
 assign MouseStatus = MASTER_STATE_CODE;
+assign BTNS = {MOUSE_STATUS[0],MOUSE_STATUS[2],MOUSE_STATUS[1]};
 
-//assign MouseX = MOUSE_DX;
-//assign MouseY = MOUSE_DY;
 assign XSIGN = MOUSE_STATUS[4];
 assign YSIGN = MOUSE_STATUS[5];
 
 // continuous assignments for coord calculations
-//assign XSIGN = MOUSE_DX[7];
-//assign YSIGN = MOUSE_DY[7];
 assign XOF = MOUSE_STATUS[6];
 assign YOF = MOUSE_STATUS[7];
 
@@ -103,40 +102,41 @@ assign DATA_MOUSE_IN = DATA_MOUSE;
 assign DATA_MOUSE = DATA_MOUSE_OUT_EN ? DATA_MOUSE_OUT : 1'bZ;
 
 // Overflow Handling
-assign MouseDX = XOF ? {9'h000} :{XSIGN,MOUSE_DX};
-assign MouseDY = YOF ? {9'h000} :{YSIGN,MOUSE_DY};
+assign MouseDX = XOF ? {12'h000} : {{4{XSIGN}},MOUSE_DX};
+assign MouseDY = YOF ? {12'h000} : {{4{YSIGN}},MOUSE_DY};
 
 // Assign wider OVERFLOW 
-assign OVERFLOWX = SENS_CTRL ? {1'b0,MouseX} + (MouseDX >>> 2) : {1'b0,MouseX} + (MouseDX);
-assign OVERFLOWY = SENS_CTRL ? {1'b0,MouseY} + (MouseDY >>> 2) : {1'b0,MouseY} + (MouseDY);
+assign OVERFLOWX = {4'b0,MouseX} + (MouseDX);
+assign OVERFLOWY = {4'b0,MouseY} + (MouseDY);
 
-// Assign 
-assign BTNS = {MOUSE_STATUS[0],MOUSE_STATUS[2],MOUSE_STATUS[1]};
+// Assign scaled limit
+assign MouseLimitX_scaled = MouseLimitX << SENS_CTRL;
+assign MouseLimitY_scaled = MouseLimitY << SENS_CTRL;
 
 // Sqequential Block for assigning vals
 always@(posedge CLK)
 begin
     if (RESET)
     begin
-        MouseX <= MouseLimitX/2;
-        MouseY <= MouseLimitY/2;
+        MouseX <= (MouseLimitX_scaled)/2;
+        MouseY <= (MouseLimitY_scaled)/2;
     end
     else if (SEND_INTERRUPT)
     begin
         // Set MouseX
         if (OVERFLOWX <= 0)
             MouseX <= 0;
-        else if (OVERFLOWX >= MouseLimitX)
-            MouseX <= MouseLimitX;
+        else if (OVERFLOWX >= MouseLimitX_scaled)
+            MouseX <= MouseLimitX_scaled;
         else
-            MouseX <= OVERFLOWX[7:0];
+            MouseX <= OVERFLOWX[10:0];
         // Set MouseY    
         if (OVERFLOWY <= 0)
             MouseY <= 0;
-        else if (OVERFLOWY >= MouseLimitY)
-            MouseY <= MouseLimitY;
+        else if (OVERFLOWY >= MouseLimitY_scaled)
+            MouseY <= MouseLimitY_scaled;
         else
-            MouseY <= OVERFLOWY[7:0];
+            MouseY <= OVERFLOWY[10:0];
     end
 end
 
