@@ -42,8 +42,7 @@ localparam STATE_HOST_CLK_LOW  = 'd1;
 localparam STATE_HOST_DATA_LOW = 'd2;
 localparam STATE_HOST_CLK_Z    = 'd3;
 localparam STATE_DEV_CLK_LOW   = 'd4;
-localparam STATE_TRANS_DATA_H  = 'd5;
-localparam STATE_TRANS_DATA_L  = 'd6;
+localparam STATE_TRANS_DATA    = 'd6;
 localparam STATE_TRANS_ACK_H   = 'd7;
 localparam STATE_TRANS_ACK_L   = 'd8;
 
@@ -82,6 +81,19 @@ MouseCounter# (
     .TRIG_OUT()
 );
 
+reg             CLK_MOUSE_DLY;
+reg             CLK_MOUSE_DLY_DLY;
+wire    falling_edge;
+
+always@(posedge CLK)
+begin
+    CLK_MOUSE_DLY <= CLK_MOUSE_IN;
+    CLK_MOUSE_DLY_DLY <= CLK_MOUSE_DLY;
+end
+
+assign  falling_edge = ~CLK_MOUSE_DLY & CLK_MOUSE_DLY_DLY;
+
+
 // Combinational Block
 always@(*) 
 begin
@@ -91,7 +103,7 @@ begin
     Next_DATA_MOUSE_OUT_EN = Curr_DATA_MOUSE_OUT_EN; 
     Next_DATA_MOUSE_OUT = Curr_DATA_MOUSE_OUT; 
     Next_BYTE_SENT = 'h0; 
-    Next_Hold_Counter_RESET = 'h1;
+    Next_Hold_Counter_RESET = 'h0;
     case(Curr_State)
         STATE_IDLE: 
         begin
@@ -128,38 +140,29 @@ begin
             Next_DATA_MOUSE_OUT_EN = 1'h1;
             Next_DATA_MOUSE_OUT = 1'h0;
             Next_Hold_Counter_RESET = 1'h1;
-            Next_State = STATE_TRANS_DATA_H;
+            Next_State = STATE_TRANS_DATA;
         end
-        STATE_TRANS_DATA_H: // Ensure CLK  hi
+        STATE_TRANS_DATA: // Ensure CLK  hi
         begin
+            Next_DATA_MOUSE_OUT_EN = 1'h1;
             if (Curr_data_index >= 'hb)
             begin
                 Next_DATA_MOUSE_OUT_EN = 1'h0;  
                 Next_CLK_MOUSE_OUT_EN = 1'h0;
                 Next_State = STATE_TRANS_ACK_H;
             end
-            else if (~CLK_MOUSE_IN)
+            else if (falling_edge)
             begin
-                Next_DATA_MOUSE_OUT_EN = 1'h1;
-                Next_State = STATE_TRANS_DATA_L;
                 Next_Hold_Counter_RESET = 1'h1;
+                Next_State = STATE_TRANS_DATA;
+            end
+            else if (Hold_Counter_COUNT == 1500)
+            begin
+                Next_Hold_Counter_RESET = 1'h0;
+                Next_DATA_MOUSE_OUT = data_transmit[Curr_data_index]; // Data Update here
+                Next_data_index = Curr_data_index + 1;
             end
         end
-        STATE_TRANS_DATA_L: // Transmit when CLK lo
-        begin
-            Next_DATA_MOUSE_OUT_EN = 1'h1;
-            Next_Hold_Counter_RESET = 1'h0;
-            if (Hold_Counter_COUNT == 1500) // wait 15us at CLK lo
-            begin
-                Next_DATA_MOUSE_OUT = data_transmit[Curr_data_index]; // Data Update here
-            end
-            if (CLK_MOUSE_IN)
-            begin
-                Next_data_index = Curr_data_index + 1;
-                Next_Hold_Counter_RESET = 1'h1;
-                Next_State = STATE_TRANS_DATA_H; 
-            end
-         end
          STATE_TRANS_ACK_H: // Wait for Start of ACK
          begin
             Next_DATA_MOUSE_OUT_EN = 1'h0;
@@ -210,7 +213,7 @@ begin
 end
 
 // assign outputs
-assign STATE = Curr_State;
+assign STATE = Curr_data_index;
 assign data_transmit = {1'h1,~(^BYTE_TO_SEND), BYTE_TO_SEND, 1'h0};
 assign CLK_MOUSE_OUT_EN = Curr_CLK_MOUSE_OUT_EN;
 assign DATA_MOUSE_OUT = Curr_DATA_MOUSE_OUT;

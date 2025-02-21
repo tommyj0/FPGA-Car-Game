@@ -48,20 +48,21 @@ set_msg_config -id {HDL 9-1654} -limit 100000
 start_step init_design
 set rc [catch {
   create_msg_db init_design.pb
+  set_param xicom.use_bs_reader 1
   debug::add_scope template.lib 1
   set_property design_mode GateLvl [current_fileset]
-  set_property webtalk.parent_dir /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.cache/wt [current_project]
-  set_property parent.project_path /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.xpr [current_project]
-  set_property ip_repo_paths /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.cache/ip [current_project]
-  set_property ip_output_repo /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.cache/ip [current_project]
-  add_files -quiet /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.runs/synth_1/top.dcp
-  add_files -quiet /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.runs/ila_0_synth_1/ila_0.dcp
-  set_property netlist_only true [get_files /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.runs/ila_0_synth_1/ila_0.dcp]
-  read_xdc -mode out_of_context -ref ila_0 /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.srcs/sources_1/ip/ila_0/ila_0_ooc.xdc
-  set_property processing_order EARLY [get_files /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.srcs/sources_1/ip/ila_0/ila_0_ooc.xdc]
-  read_xdc -ref ila_0 /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.srcs/sources_1/ip/ila_0/ila_v5_1/constraints/ila.xdc
-  set_property processing_order EARLY [get_files /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.srcs/sources_1/ip/ila_0/ila_v5_1/constraints/ila.xdc]
-  read_xdc /home/s2021770/Documents/PS2-Mouse-Interface-main/Mouse_Interface_2015.srcs/constrs_1/imports/new/MouseXDC.xdc
+  set_property webtalk.parent_dir /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.cache/wt [current_project]
+  set_property parent.project_path /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.xpr [current_project]
+  set_property ip_repo_paths /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.cache/ip [current_project]
+  set_property ip_output_repo /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.cache/ip [current_project]
+  add_files -quiet /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.runs/synth_1/top.dcp
+  add_files -quiet /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.runs/ila_0_synth_1/ila_0.dcp
+  set_property netlist_only true [get_files /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.runs/ila_0_synth_1/ila_0.dcp]
+  read_xdc -mode out_of_context -ref ila_0 /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.srcs/sources_1/ip/ila_0/ila_0_ooc.xdc
+  set_property processing_order EARLY [get_files /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.srcs/sources_1/ip/ila_0/ila_0_ooc.xdc]
+  read_xdc -ref ila_0 /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.srcs/sources_1/ip/ila_0/ila_v5_1/constraints/ila.xdc
+  set_property processing_order EARLY [get_files /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.srcs/sources_1/ip/ila_0/ila_v5_1/constraints/ila.xdc]
+  read_xdc /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.srcs/constrs_1/imports/new/MouseXDC.xdc
   link_design -top top -part xc7a35tcpg236-1
   close_msg_db -file init_design.pb
 } RESULT]

@@ -78,20 +78,20 @@ wire signed [8:0]   MouseDX;
 wire signed [8:0]   MouseDY;
 
 // Assign outputs
-assign MouseXout = SENS_CTRL ? MouseX >> 2 : MouseX;
-assign MouseYout = SENS_CTRL ? MouseY >> 2 : MouseY;
+assign MouseXout = MouseX;
+assign MouseYout = MouseY;
 assign XS = XSIGN;
 assign YS = YSIGN;
 assign MouseStatus = MASTER_STATE_CODE;
 
 //assign MouseX = MOUSE_DX;
 //assign MouseY = MOUSE_DY;
-//assign XSIGN = MOUSE_STATUS[4];
-//assign YSIGN = MOUSE_STATUS[5];
+assign XSIGN = MOUSE_STATUS[4];
+assign YSIGN = MOUSE_STATUS[5];
 
 // continuous assignments for coord calculations
-assign XSIGN = MOUSE_DX[7];
-assign YSIGN = MOUSE_DY[7];
+//assign XSIGN = MOUSE_DX[7];
+//assign YSIGN = MOUSE_DY[7];
 assign XOF = MOUSE_STATUS[6];
 assign YOF = MOUSE_STATUS[7];
 
@@ -103,12 +103,12 @@ assign DATA_MOUSE_IN = DATA_MOUSE;
 assign DATA_MOUSE = DATA_MOUSE_OUT_EN ? DATA_MOUSE_OUT : 1'bZ;
 
 // Overflow Handling
-assign MouseDX = XOF ? XSIGN ? {9'h000} : {9'h000} : {XSIGN,MOUSE_DX};
-assign MouseDY = YOF ? YSIGN ? {9'h000} : {9'h000} : {YSIGN,MOUSE_DY};
+assign MouseDX = XOF ? {9'h000} :{XSIGN,MOUSE_DX};
+assign MouseDY = YOF ? {9'h000} :{YSIGN,MOUSE_DY};
 
 // Assign wider OVERFLOW 
-assign OVERFLOWX = {1'b0,MouseX} + (MouseDX);
-assign OVERFLOWY = {1'b0,MouseY} + (MouseDY);
+assign OVERFLOWX = SENS_CTRL ? {1'b0,MouseX} + (MouseDX >>> 2) : {1'b0,MouseX} + (MouseDX);
+assign OVERFLOWY = SENS_CTRL ? {1'b0,MouseY} + (MouseDY >>> 2) : {1'b0,MouseY} + (MouseDY);
 
 // Assign 
 assign BTNS = {MOUSE_STATUS[0],MOUSE_STATUS[2],MOUSE_STATUS[1]};

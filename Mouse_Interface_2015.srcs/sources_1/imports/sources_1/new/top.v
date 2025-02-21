@@ -100,10 +100,10 @@ seg7decoder u_seg7decoder(
 );
 
 mux_4x1 u_mux_4x1( 
-        .IN1(MouseX[3:0]),                 // 4-bit input
-        .IN2(MouseX[7:4]),                 // 4-bit input
-        .IN3(MouseY[3:0]),                 // 4-bit input
-        .IN4(MouseY[7:4]),                 // 4-bit input
+        .IN1(MouseY[3:0]),                 // 4-bit input
+        .IN2(MouseY[7:4]),                 // 4-bit input
+        .IN3(MouseX[3:0]),                 // 4-bit input
+        .IN4(MouseX[7:4]),                 // 4-bit input
         .CTRL(StrobeCount),               // Control 
         .OUT(SEG_BIN)                       
 );      

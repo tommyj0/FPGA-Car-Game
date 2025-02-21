@@ -110,9 +110,6 @@ begin
             STATE_RESET: // Send RESET BYTE
             begin
                 Next_TIMER_RESET = 'h1;
-//                Next_MOUSE_DX = 'h0;
-//                Next_MOUSE_DY = 'h0;
-//                Next_MOUSE_STATUS = 'h0;
                 Next_SEND_INTERRUPT = 'h0;
                 Next_READ_ENABLE = 1'h0;
                 Next_SEND_BYTE = 1'h1;
@@ -127,141 +124,177 @@ begin
             
             STATE_RESET_ACK: // Wait for RESET ACK BYTE
             begin
-                Next_SEND_BYTE = 1'h0;
-                Next_READ_ENABLE = 1'h1;
-                if (BYTE_READY) begin 
-//                    Next_TIMER_RESET =1'h1;
-                    if (BYTE_READ == RESET_ACK_BYTE && BYTE_ERROR_CODE == 2'h0) begin
-                        Next_State = STATE_SELF_TEST;
+                if (TIMER_TRIG)
+                    Next_State = STATE_RESET;
+                else
+                begin
+                    Next_SEND_BYTE = 1'h0;
+                    Next_READ_ENABLE = 1'h1;
+                    if (BYTE_READY) begin 
+                        Next_TIMER_RESET =1'h1;
+                        if (BYTE_READ == RESET_ACK_BYTE && BYTE_ERROR_CODE == 2'h0) begin
+                            Next_State = STATE_SELF_TEST;
+                        end
+                        else
+                            Next_State = STATE_RESET;
                     end
                     else
-                        Next_State = STATE_RESET;
+                        Next_TIMER_RESET = 1'h0;
                 end
-//                else
-//                    Next_TIMER_RESET = 1'h0;
             end
             
             STATE_SELF_TEST: // Wait for SELF TEST PASSED BYTE 
             begin
-                Next_SEND_BYTE = 1'h0;
-                Next_READ_ENABLE = 1'h1;
-                if (BYTE_READY)
-                begin
-                    Next_TIMER_RESET = 1'h1;
-                    if (BYTE_READ == SELF_TEST_PASSED_BYTE && BYTE_ERROR_CODE == 2'h0) 
-                        Next_State = STATE_CHECK_ID;
-                    else
-                        Next_State = STATE_RESET;
-                end             
+                if (TIMER_TRIG)
+                    Next_State = STATE_RESET;
                 else
                 begin
-                    Next_TIMER_RESET = 1'h0;
-                end             
+                    Next_SEND_BYTE = 1'h0;
+                    Next_READ_ENABLE = 1'h1;
+                    if (BYTE_READY)
+                    begin
+                        Next_TIMER_RESET = 1'h1;
+                        if (BYTE_READ == SELF_TEST_PASSED_BYTE && BYTE_ERROR_CODE == 2'h0) 
+                            Next_State = STATE_CHECK_ID;
+                        else
+                            Next_State = STATE_RESET;
+                    end             
+                    else
+                    begin
+                        Next_TIMER_RESET = 1'h0;
+                    end     
+                end        
             end
             
             STATE_CHECK_ID: // Wait for MOUSE ID BYTE
             begin
-                Next_READ_ENABLE = 1'h1;
-                if (BYTE_READY)
-                begin
-                    Next_TIMER_RESET = 1'h1;
-                    if (BYTE_READ == MOUSE_ID_BYTE && BYTE_ERROR_CODE == 'h0) 
-                    begin
-                        Next_State = STATE_START_TRANS;
-                    end   
-                    else
-                        Next_State = STATE_RESET;
-                end
+                if (TIMER_TRIG)
+                    Next_State = STATE_RESET;
                 else
                 begin
-                    Next_TIMER_RESET = 1'h0;
+                    Next_READ_ENABLE = 1'h1;
+                    if (BYTE_READY)
+                    begin
+                        Next_TIMER_RESET = 1'h1;
+                        if (BYTE_READ == MOUSE_ID_BYTE && BYTE_ERROR_CODE == 'h0) 
+                        begin
+                            Next_State = STATE_START_TRANS;
+                        end   
+                        else
+                            Next_State = STATE_RESET;
+                    end
+                    else
+                    begin
+                        Next_TIMER_RESET = 1'h0;
+                    end
                 end
             end     
             
             STATE_START_TRANS: // Send Start TRANS BYTE
             begin
-                Next_READ_ENABLE = 1'h0;
-                if (BYTE_SENT) 
-                begin
-                    Next_SEND_BYTE = 'h0;
-                    Next_BYTE_TO_SEND = 'h0;
-                    Next_State = STATE_START_TRANS_ACK;
-                end
+                if (TIMER_TRIG)
+                    Next_State = STATE_RESET;
                 else
                 begin
-                    Next_BYTE_TO_SEND = 8'hF4;
-                    Next_SEND_BYTE = 1'h1;
+                    Next_READ_ENABLE = 1'h0;
+                    if (BYTE_SENT) 
+                    begin
+                        Next_SEND_BYTE = 'h0;
+                        Next_BYTE_TO_SEND = 'h0;
+                        Next_State = STATE_START_TRANS_ACK;
+                    end
+                    else
+                    begin
+                        Next_BYTE_TO_SEND = 8'hF4;
+                        Next_SEND_BYTE = 1'h1;
+                    end
                 end
             end
             
             STATE_START_TRANS_ACK: // Wait for TRANS ACK BYTE
             begin
-                Next_READ_ENABLE = 1'h1;
-                if (BYTE_READY)
-                begin
-//                    Next_READ_ENABLE = 'h0;
-                    Next_TIMER_RESET = 1'h1;
-                    if  ((BYTE_READ == START_TRANS_ACK_BYTE_1 || BYTE_READ == START_TRANS_ACK_BYTE_2) && BYTE_ERROR_CODE == 2'h0) 
-                    begin
-                        Next_State = STATE_READ_STATUS;
-                    end    
-                    else
-                        Next_State = STATE_RESET;
-                end
+                if (TIMER_TRIG)
+                    Next_State = STATE_RESET;
                 else
-                    Next_TIMER_RESET = 1'h0;
-
+                begin
+                    Next_READ_ENABLE = 1'h1;
+                    if (BYTE_READY)
+                    begin
+    //                    Next_READ_ENABLE = 'h0;
+                        Next_TIMER_RESET = 1'h1;
+                        if  ((BYTE_READ == START_TRANS_ACK_BYTE_1 || BYTE_READ == START_TRANS_ACK_BYTE_2) && BYTE_ERROR_CODE == 2'h0) 
+                        begin
+                            Next_State = STATE_READ_STATUS;
+                        end    
+                        else
+                            Next_State = STATE_RESET;
+                    end
+                    else
+                        Next_TIMER_RESET = 1'h0;
+                end
             end
             
             STATE_READ_STATUS: // Read the STATUS BYTE
             begin
-                Next_READ_ENABLE = 1'h1;
-                Next_SEND_INTERRUPT = 1'h0;
-                if (BYTE_READY)
-                begin
-                    Next_READ_ENABLE = 1'h0;
-                    Next_TIMER_RESET = 'h1;
-                    if (BYTE_READ[3] && BYTE_ERROR_CODE == 2'h0) 
-                    begin
-                        Next_MOUSE_STATUS = BYTE_READ;
-                        Next_State = STATE_READ_X;
-                    end
-                    else 
-                    begin
-                        Next_State = STATE_RESET;
-                    end
-                end
+                if (TIMER_TRIG)
+                    Next_State = STATE_RESET;
                 else
                 begin
                     Next_READ_ENABLE = 1'h1;
-                    Next_TIMER_RESET = 'h0;
+                    Next_SEND_INTERRUPT = 1'h0;
+                    if (BYTE_READY)
+                    begin
+                        Next_READ_ENABLE = 1'h0;
+                        Next_TIMER_RESET = 'h1;
+                        if (BYTE_READ[3] && BYTE_ERROR_CODE == 2'h0) 
+                        begin
+                            Next_MOUSE_STATUS = BYTE_READ;
+                            Next_State = STATE_READ_X;
+                        end
+                        else 
+                        begin
+                            Next_State = STATE_RESET;
+                        end
+                    end
+                    else
+                    begin
+                        Next_READ_ENABLE = 1'h1;
+                        Next_TIMER_RESET = 'h0;
+                    end
                 end
-
             end
            
             
             STATE_READ_X: // Read the X BYTE
             begin
-                Next_READ_ENABLE = 1'h1;
-                if (BYTE_READY)
-                begin
-                    Next_TIMER_RESET = 'h1;
-                    if (BYTE_ERROR_CODE == 2'h0) begin
-                        Next_MOUSE_DX = BYTE_READ;
-                        Next_READ_ENABLE = 1'h0;
-                        Next_State = STATE_READ_Y;
-                    end
-                    else if (BYTE_ERROR_CODE != 2'h0) begin
-                        Next_State = STATE_RESET;
-                    end
-                end
+                if (TIMER_TRIG)
+                    Next_State = STATE_RESET;
                 else
-                    Next_TIMER_RESET = 'h0;
-
+                begin
+                    Next_READ_ENABLE = 1'h1;
+                    if (BYTE_READY)
+                    begin
+                        Next_TIMER_RESET = 'h1;
+                        if (BYTE_ERROR_CODE == 2'h0) begin
+                            Next_MOUSE_DX = BYTE_READ;
+                            Next_READ_ENABLE = 1'h0;
+                            Next_State = STATE_READ_Y;
+                        end
+                        else if (BYTE_ERROR_CODE != 2'h0) begin
+                            Next_State = STATE_RESET;
+                        end
+                    end
+                    else
+                        Next_TIMER_RESET = 'h0;
+                end
             end
             
             STATE_READ_Y: // Read the Y BYTE
-            begin 
+            begin
+                if (TIMER_TRIG)
+                    Next_State = STATE_RESET;
+                else
+                begin
                 Next_READ_ENABLE = 1'h1;
                 if (BYTE_READY)
                 begin
@@ -281,8 +314,8 @@ begin
                     Next_TIMER_RESET = 'h0;
 
 
+                end
             end
-            
             default:
                 Next_State = STATE_RESET;
         endcase
@@ -291,7 +324,7 @@ end
 // Sequential Block
 always@(posedge CLK)
 begin
-    if (RESET || TIMER_TRIG)
+    if (RESET)
     begin
         Curr_State <= STATE_RESET;
         Curr_TIMER_RESET <= 'b0;

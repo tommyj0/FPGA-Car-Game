@@ -64,7 +64,10 @@ begin
         InterruptEnable <= BUS_DATA[0];
 end
 //First we must lower the clock speed from 50MHz to 1 KHz (1ms period) 
-reg [31:0] DownCounter; always@(posedge CLK) begin if(RESET)
+reg [31:0] DownCounter; 
+always@(posedge CLK) 
+begin 
+if(RESET)
 DownCounter <= 0;
 else 
 begin
@@ -77,14 +80,22 @@ end
 //Now we can record the last time an interrupt was sent, and add a value to it to determine if it is
 // time to raise the interrupt.
 // But first, let us generate the 1ms counter (Timer)
-reg [31:0] Timer; always@(posedge CLK) begin
-if(RESET | (BUS_ADDR == TimerBaseAddr + 8'h02))
-Timer <= 0; else begin
-if((DownCounter == 0)) Timer <=
-Timer + 1'b1; else
-Timer <= Timer; end
+reg [31:0] Timer; 
+
+always@(posedge CLK) 
+begin
+    if(RESET | (BUS_ADDR == TimerBaseAddr + 8'h02))
+        Timer <= 0; 
+    else 
+    begin
+        if((DownCounter == 0)) 
+            Timer <= Timer + 1'b1; 
+        else
+            Timer <= Timer; 
+    end
 end
-//Interrupt generation reg TargetReached; 
+//Interrupt generation 
+reg TargetReached; 
 reg [31:0] LastTime; 
 always@(posedge CLK) 
 begin 
@@ -99,7 +110,8 @@ begin
         end else
             TargetReached <= 1'b0;
 end
-//Broadcast the Interrupt reg Interrupt;
+//Broadcast the Interrupt 
+reg Interrupt;
 always@(posedge CLK) 
 begin
     if(RESET)

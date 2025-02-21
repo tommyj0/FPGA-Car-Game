@@ -53,6 +53,7 @@ reg  [3:0]      Curr_State;
 reg  [3:0]      Curr_bit_counter; 
 reg             Curr_TIMER_RESET;
 reg             CLK_MOUSE_DLY;
+reg             CLK_MOUSE_DLY_DLY;
 
 // Combinational Regs
 reg             Next_BYTE_READY;
@@ -73,16 +74,19 @@ MouseCounter # (
 ) ResetTimer (
     .CLK(CLK),
     .RESET(Curr_TIMER_RESET),
-    .EN(1'h1),
+    .EN(1'h0),
     .TRIG_OUT(TIMER_TRIG),
     .COUNT()
 );
 always@(posedge CLK)
+begin
     CLK_MOUSE_DLY <= CLK_MOUSE_IN;
+    CLK_MOUSE_DLY_DLY <= CLK_MOUSE_DLY;
+end
     
 // continuous assignment of wires
 assign parity_bit = ~(^BYTE_READ);
-assign falling_edge = ~CLK_MOUSE_IN & CLK_MOUSE_DLY;
+assign falling_edge = ~CLK_MOUSE_DLY & CLK_MOUSE_DLY_DLY;
 
 // Combinational Logic
 always@(*) 
@@ -106,7 +110,6 @@ begin
             if (CLK_MOUSE_IN && READ_ENABLE)
                 Next_State = STATE_READ;
         end
-     
         
         STATE_READ:   // Check counter at CLK lo
         begin
@@ -180,7 +183,7 @@ end
 assign BYTE_READ = Curr_BYTE_READ;
 assign BYTE_READY = Curr_BYTE_READY;
 assign BYTE_ERROR_CODE = Curr_BYTE_ERROR_CODE;
-assign STATE = Curr_State;
+assign STATE = Curr_bit_counter;
 
 
 endmodule

@@ -7,6 +7,6 @@
 source /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.hw/webtalk/labtool_webtalk.tcl -notrace
 
     while executing
-"webtalk_transmit -clientid 3605154662 -regid "212796689_0_0_708" -xml /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.hw/webtalk/usage..."
+"webtalk_transmit -clientid 1149599908 -regid "212796689_0_0_708" -xml /home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.hw/webtalk/usage..."
     (file "/home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.hw/webtalk/labtool_webtalk.tcl" line 28)
-INFO: [Common 17-206] Exiting Webtalk at Mon Feb 10 19:05:35 2025...
+INFO: [Common 17-206] Exiting Webtalk at Fri Feb 21 12:22:26 2025...
