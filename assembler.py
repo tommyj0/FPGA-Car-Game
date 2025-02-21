@@ -7,25 +7,25 @@
 
 ## Math ##
 
-add a/b       a/b = a + b 
-sub a/b       a/b = a - b
-mul a/b       a/b = a * b
+add reg       reg = a + b 
+sub reg       reg = a - b
+mul reg       reg = a * b
 
-sll a/b       a/b = a << b           
-srl a/b       a/b = a >> b           
-inca a/b      a/b = a + 1
-incb a/b      a/b = b + 1
-deca a/b      a/b = a - 1
-decb a/b      a/b = b - 1
-eq a/b        a/b = a == b
-gt a/b        a/b = a > b
-lt a/b        a/b = a < b
+sll reg       reg = a << b           
+srl reg       reg = a >> b           
+inca reg      reg = a + 1
+incb reg      reg = b + 1
+deca reg      reg = a - 1
+decb reg      reg = b - 1
+eq reg        reg = a == b
+gt reg        reg = a > b
+lt reg        reg = a < b
 
 ## Memory ##
 
-ldb a/b ADDR  a/b = [ADDR] 
-stb a/b ADDR  [ADDR] = a/b
-dref a/b      a/b = [a/b]
+ldb reg ADDR  reg = [ADDR] 
+stb reg ADDR  [ADDR] = reg
+dref reg      reg = [reg]
 
 ## Branch ##
 
