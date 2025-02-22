@@ -1,5 +1,5 @@
 #!/bin/sh -f
-xv_path="/opt/Xilinx/Vivado/2015.2"
+xv_path="/tools/Xilinx/Vivado/2015.2"
 ExecStep()
 {
 "$@"
@@ -9,4 +9,4 @@ then
 exit $RETVAL
 fi
 }
-ExecStep $xv_path/bin/xsim receiver_tb_behav -key {Behavioral:sim_1:Functional:receiver_tb} -tclbatch receiver_tb.tcl -log simulate.log
+ExecStep $xv_path/bin/xsim processor_tb_behav -key {Behavioral:sim_1:Functional:processor_tb} -tclbatch processor_tb.tcl -view /home/tommyj/AMD_FPGA/Mouse_Interface_2015/processor_tb_behav.wcfg -log simulate.log

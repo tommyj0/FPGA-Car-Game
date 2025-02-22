@@ -28,13 +28,13 @@ module ROM(
     input [7:0] ADDR
 );
 parameter RAMAddrWidth = 8;
-
+parameter INIT_FILE = "../../../rom.mem";
 //Memory
 reg [7:0] ROM [2**RAMAddrWidth-1:0];
 
 // Load program
 initial 
-    $readmemh("Complete_Demo_ROM.txt", ROM);
+    $readmemh(INIT_FILE, ROM);
 
 //single port ram
 always@(posedge CLK)

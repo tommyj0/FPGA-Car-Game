@@ -38,7 +38,11 @@ call ADDR     call subroutine
 ret           return from subroutine
 '''
 
-# TODO implement labels, can't think of anything else that we need
+# TODO implement labels, can't think of anything else 
+
+
+import sys
+
 math_lut = {
   "add"   : 0x04,
   "sub"   : 0x14,
@@ -70,8 +74,10 @@ branch_lut = {
   "ret"   : 0x0A,
 }
 
+address_counter = 0x0
+
 def write_comment(file_p, com):
-  file_p.write(f"\t; {' '.join(com)}")
+  file_p.write(f"  // {' '.join(com)}")
 
 def write_hex(file_p,num): # write instruction to machine code file
   if num > 255:
@@ -80,6 +86,8 @@ def write_hex(file_p,num): # write instruction to machine code file
   if len(hex_token) == 1:
     file_p.write(f"0")
   file_p.write(f"{hex_token}")
+  global address_counter
+  address_counter += 1
 
 def check_dest_reg(rd): # check that rd is either a or b
   if "a" not in rd and "b" not in rd:
@@ -93,8 +101,10 @@ def write_math_instr(file_p,line):
   check_dest_reg(line[1])
   check_token_num(line,2)
   instr = math_lut[line[0]]
+
   if "b" in line[1]:
     instr += 1
+
   write_hex(file_p,instr)
   write_comment(file_p,line)
   file_p.write("\n")
@@ -104,6 +114,7 @@ def write_mem_instr(file_p,line):
   instr = mem_lut[line[0]]
   if "b" in line[1]:
     instr += 1
+
   write_hex(file_p,instr)
   write_comment(file_p,line)
   file_p.write("\n")
@@ -111,6 +122,7 @@ def write_mem_instr(file_p,line):
   if "dref" in line[0]:
     check_token_num(line,2)
     return
+
   check_token_num(line,3)
   write_hex(file_p,int(line[2],0))
   file_p.write("\n")
@@ -120,16 +132,24 @@ def write_branch_instr(file_p,line):
   write_hex(file_p,instr)
   write_comment(file_p,line)
   file_p.write("\n")
+
   if "ret" in line[0] or "idle" in line[0]:
     check_token_num(line,1)
     return
+
   check_token_num(line,2)
   write_hex(file_p,int(line[1],0))
   file_p.write("\n")
 
-rom_f = open("rom.txt","w")
-ram_f = open("ram.txt","w")
-asm_f = open("main.asm","r")
+
+
+
+n = len(sys.argv)
+assert(n == 2)
+
+rom_f = open("rom.mem","w")
+ram_f = open("ram.mem","w")
+asm_f = open(sys.argv[1],"r")
 asm = asm_f.readlines()
 
 for line in asm:
@@ -145,3 +165,14 @@ for line in asm:
     write_branch_instr(rom_f,line)
   else:
     raise Exception(f"code {code} is not a part of the ISA")
+
+if address_counter > 255:
+  raise Exception(f"code must be 255B or shorter, current length is {address_counter}")
+else:
+  print(f"{address_counter}B have been written to rom")
+
+for i in range(256 - address_counter): # fill rest of rom init with nops
+  rom_f.write("08\n")
+
+for i in range(128): # TODO: add constants, for now fill ram with 0s
+  ram_f.write("00\n")

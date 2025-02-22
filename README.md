@@ -1,5 +1,13 @@
 # Silly Car Game
 
+## Usage
+
+
+```sh
+python assembley.py [source]
+```
+
+
 ## Arch
 
 Controlled by a 8-bit single-cycle CPU with 2 regs (a,b)

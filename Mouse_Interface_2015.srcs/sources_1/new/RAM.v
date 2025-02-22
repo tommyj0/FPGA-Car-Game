@@ -20,15 +20,19 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module RAM(
-//standard signals
-input CLK,
-//BUS signals
-inout [7:0] BUS_DATA,
-input [7:0] BUS_ADDR,
-input BUS_WE
+    //standard signals
+    input CLK,
+    //BUS signals
+    inout [7:0] BUS_DATA,
+    input [7:0] BUS_ADDR,
+    input BUS_WE
 );
+
 parameter RAMBaseAddr = 0;
 parameter RAMAddrWidth = 7; // 128 x 8-bits memory
+
+parameter INIT_FILE = "../../../ram.mem";
+
 //Tristate
 wire [7:0] BufferedBusData;
 reg [7:0] Out;
@@ -39,7 +43,8 @@ assign BufferedBusData = BUS_DATA;
 //Memory
 reg [7:0] Mem [2**RAMAddrWidth-1:0];
 // Initialise the memory for data preloading, initialising variables, and declaring constants
-initial $readmemh("Complete_Demo_RAM.txt", Mem);
+
+initial $readmemh(INIT_FILE, Mem);
 //single port ram 
 always@(posedge CLK)
 begin

@@ -80,7 +80,7 @@ ALU ALU0(
     //I/O
     .IN_A(CurrRegA),
     .IN_B(CurrRegB),
-    .IN_OPP_TYPE(ProgMemoryOut[7:4]),
+    .ALU_Op_Code(ProgMemoryOut[7:4]),
     .OUT_RESULT(AluOut)
 );
 
