@@ -44,7 +44,7 @@ initial $readmemh("Complete_Demo_RAM.txt", Mem);
 always@(posedge CLK)
 begin
     // Brute-force RAM address decoding. Think of a simpler way...
-    if((BUS_ADDR >= RAMBaseAddr) & (BUS_ADDR < RAMBaseAddr + 128)) 
+    if ((BUS_ADDR >= RAMBaseAddr) & (BUS_ADDR < RAMBaseAddr + 128)) 
     begin
         if(BUS_WE) 
         begin

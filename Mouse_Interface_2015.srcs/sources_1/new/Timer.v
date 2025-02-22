@@ -21,15 +21,15 @@
 
 
 module Timer(
-//standard signals
-input CLK,
-input RESET,
-//BUS signals
-inout [7:0] BUS_DATA,
-input [7:0] BUS_ADDR,
-input BUS_WE,
-output BUS_INTERRUPT_RAISE,
-input BUS_INTERRUPT_ACK
+    //standard signals
+    input CLK,
+    input RESET,
+    //BUS signals
+    inout [7:0] BUS_DATA,
+    input [7:0] BUS_ADDR,
+    input BUS_WE,
+    output BUS_INTERRUPT_RAISE,
+    input BUS_INTERRUPT_ACK
 );
 parameter [7:0] TimerBaseAddr = 8'hF0; // Timer Base Address in the Memory Map
 parameter InitialIterruptRate = 100; // Default interrupt rate leading to 1 interrupt every 100 ms

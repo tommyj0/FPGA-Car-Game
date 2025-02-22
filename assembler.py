@@ -127,7 +127,8 @@ def write_branch_instr(file_p,line):
   write_hex(file_p,int(line[1],0))
   file_p.write("\n")
 
-mac_f = open("mem.txt","w")
+rom_f = open("rom.txt","w")
+ram_f = open("ram.txt","w")
 asm_f = open("main.asm","r")
 asm = asm_f.readlines()
 
@@ -137,10 +138,10 @@ for line in asm:
   code = line[0]
 
   if code in math_lut:
-    write_math_instr(mac_f,line)
+    write_math_instr(rom_f,line)
   elif code in mem_lut:
-    write_mem_instr(mac_f,line)
+    write_mem_instr(rom_f,line)
   elif code in branch_lut:
-    write_branch_instr(mac_f,line)
+    write_branch_instr(rom_f,line)
   else:
     raise Exception(f"code {code} is not a part of the ISA")

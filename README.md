@@ -4,6 +4,8 @@
 
 Controlled by a 8-bit single-cycle CPU with 2 regs (a,b)
 
+![system arch block diagram](figs/system.png)
+
 ## ISA Summary
 
 ### Math 

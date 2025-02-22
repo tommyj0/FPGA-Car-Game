@@ -1,9 +1,0 @@
-04	; add a
-15	; sub b
-0d	; dref a
-01	; ldb b 0x10
-10
-0a	; ret
-09	; call 0xAA
-aa
-08	; idle

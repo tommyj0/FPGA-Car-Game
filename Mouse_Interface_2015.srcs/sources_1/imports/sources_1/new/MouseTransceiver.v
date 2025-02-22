@@ -28,13 +28,14 @@ module MouseTransceiver(
     // IO - Mouse Side
     inout           CLK_MOUSE,
     inout           DATA_MOUSE,
-    // Mouse data information
+//     Mouse data information
     output [3:0]    MouseStatus,
     output [7:0]    MouseXout,
     output [7:0]    MouseYout,
     output          XS,
     output          YS,
-    output [2:0]    BTNS
+    output [2:0]    BTNS,
+    output reg      INTERRUPT_RAISE
 );
 
 reg [10:0] MouseX;
@@ -120,9 +121,11 @@ begin
     begin
         MouseX <= (MouseLimitX_scaled)/2;
         MouseY <= (MouseLimitY_scaled)/2;
+        INTERRUPT_RAISE <= 'h0;
     end
     else if (SEND_INTERRUPT)
     begin
+        INTERRUPT_RAISE <= 'h1;
         // Set MouseX
         if (OVERFLOWX <= 0)
             MouseX <= 0;
