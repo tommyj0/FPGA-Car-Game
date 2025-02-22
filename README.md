@@ -1,18 +1,23 @@
 # Silly Car Game
 
-## Usage
-
-
-```sh
-python assembley.py [source]
-```
-
+FPGA Car Game written in verilog
 
 ## Arch
 
 Controlled by a 8-bit single-cycle CPU with 2 regs (a,b)
 
 ![system arch block diagram](figs/system.png)
+
+## Assembler Usage
+
+Run with asm file path as input arg:
+
+```sh
+python assembley.py [source]
+```
+
+outputs written to ram.mem and rom.mem in the root project folder
+
 
 ## ISA Summary
 
