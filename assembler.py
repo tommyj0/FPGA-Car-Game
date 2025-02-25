@@ -107,7 +107,7 @@ def write_branch_instr(file_p,line): # handle branch type
 n = len(sys.argv) # get input args
 assert n == 2, "Requires 1 input arg"
 rom_fp = "rom.mem"
-ram_fp = "rom.mem"
+ram_fp = "ram.mem"
 rom_f = open(rom_fp,"w")
 ram_f = open(ram_fp,"w")
 asm_f = open(sys.argv[1],"r")

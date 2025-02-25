@@ -216,8 +216,9 @@ always@* begin
         GET_THREAD_START_ADDR_0: begin
             NextState = GET_THREAD_START_ADDR_1;
         end
-            //Assign the new program counter value
-            GET_THREAD_START_ADDR_1: begin
+
+        //Assign the new program counter value
+        GET_THREAD_START_ADDR_1: begin
             NextState = GET_THREAD_START_ADDR_2;
             NextProgCounter = ProgMemoryOut;
         end
@@ -392,7 +393,7 @@ always@* begin
         FUNCTION_START:
         begin
             NextState = FUNCTION_START_0;
-            NextProgContext = CurrProgCounter;
+            NextProgContext = CurrProgCounter + 2;
         end
         // assign Prog address
         FUNCTION_START_0:
