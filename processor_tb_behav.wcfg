@@ -47,10 +47,6 @@
       <obj_property name="ElementShortName">BUS_INTERRUPTS_ACK[1:0]</obj_property>
       <obj_property name="ObjectShortName">BUS_INTERRUPTS_ACK[1:0]</obj_property>
    </wvobject>
-   <wvobject db_ref_id="1" type="logic" fp_name="/processor_tb/BUST_DATA">
-      <obj_property name="ElementShortName">BUST_DATA</obj_property>
-      <obj_property name="ObjectShortName">BUST_DATA</obj_property>
-   </wvobject>
    <wvobject db_ref_id="1" type="array" fp_name="/processor_tb/u_Processor/CurrRegA">
       <obj_property name="ElementShortName">CurrRegA[7:0]</obj_property>
       <obj_property name="ObjectShortName">CurrRegA[7:0]</obj_property>
@@ -62,5 +58,17 @@
    <wvobject db_ref_id="1" type="array" fp_name="/processor_tb/u_Processor/CurrState">
       <obj_property name="ElementShortName">CurrState[7:0]</obj_property>
       <obj_property name="ObjectShortName">CurrState[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="group" fp_name="group43">
+      <obj_property name="label">SEG7</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject db_ref_id="1" type="array" fp_name="/processor_tb/u_seg7_Driver/Mem0">
+         <obj_property name="ElementShortName">Mem0[7:0]</obj_property>
+         <obj_property name="ObjectShortName">Mem0[7:0]</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" type="array" fp_name="/processor_tb/u_seg7_Driver/Mem1">
+         <obj_property name="ElementShortName">Mem1[7:0]</obj_property>
+         <obj_property name="ObjectShortName">Mem1[7:0]</obj_property>
+      </wvobject>
    </wvobject>
 </wave_config>

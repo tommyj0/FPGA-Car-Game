@@ -29,7 +29,8 @@ module Mouse_Driver(
     input  [7:0]    BUS_ADDR,
     inout  [7:0]    BUS_DATA,
     input           BUS_WE,
-    output          BUS_INTERRUPT_RAISE,
+    output          reg BUS_INTERRUPT_RAISE,
+    input           BUS_INTERRUPT_ACK,
     // IO - Mouse Side
     inout           CLK_MOUSE,
     inout           DATA_MOUSE,
@@ -40,8 +41,8 @@ module Mouse_Driver(
     
 );
 
-
 parameter RAMBaseAddr = 8'hA0;
+parameter RAMSize = 8'h3;
 parameter MOUSE_STATUS = 8'hA0;
 parameter MOUSE_X= 8'hA1;
 parameter MOUSE_Y= 8'hA2;
@@ -49,14 +50,14 @@ parameter MOUSE_Y= 8'hA2;
 reg [7:0]   Out;
 reg         RAMBusWE;
 
-
+wire INTERRUPT_RAISE;
 wire [3:0]  MouseStatus;
 wire [7:0]  MouseX;
 wire [7:0]  MouseY;
 
 
 
-assign      BUS_DATA = RAMBusWE ? Out : 8'hZZ;
+assign BUS_DATA = RAMBusWE ? Out : 8'hZZ;
 
 always@(posedge CLK)
 begin
@@ -78,6 +79,15 @@ begin
     endcase
 end
 
+always@(posedge CLK)
+begin
+    if (RESET)
+        BUS_INTERRUPT_RAISE <= 'h0;
+    else if (INTERRUPT_RAISE)
+        BUS_INTERRUPT_RAISE <= 'h1;
+    else if (BUS_INTERRUPT_ACK)
+        BUS_INTERRUPT_RAISE <= 'h0;
+end
 
 MouseTransceiver u_MouseTransceiver (
     .RESET(RESET),
@@ -91,7 +101,7 @@ MouseTransceiver u_MouseTransceiver (
     .YS(YS),
     .SENS_CTRL(SENS_CTRL),
     .BTNS(BTNS),
-    .INTERRUPT_RAISE(BUS_INTERRUPT_RAISE)
+    .INTERRUPT_RAISE(INTERRUPT_RAISE)
 );
 
 endmodule

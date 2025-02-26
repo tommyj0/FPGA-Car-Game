@@ -103,21 +103,26 @@ begin
     begin
         TargetReached <= 1'b0;
         LastTime <= 0;
-    end else if((LastTime + InterruptRate) == Timer) begin
+    end 
+    else if((LastTime + InterruptRate) == Timer) 
+    begin
         if(InterruptEnable)
             TargetReached <= 1'b1;
         LastTime <= Timer;
-        end else
-            TargetReached <= 1'b0;
+    end 
+    else
+        TargetReached <= 1'b0;
 end
 //Broadcast the Interrupt 
 reg Interrupt;
 always@(posedge CLK) 
 begin
     if(RESET)
-        Interrupt <= 1'b0; else
-    if(TargetReached) Interrupt <= 1'b1;
-    else if(BUS_INTERRUPT_ACK) Interrupt <= 1'b0;
+        Interrupt <= 1'b0; 
+    else if(TargetReached) 
+        Interrupt <= 1'b1;
+    else if(BUS_INTERRUPT_ACK) 
+        Interrupt <= 1'b0;
 end
 
 assign BUS_INTERRUPT_RAISE = Interrupt;

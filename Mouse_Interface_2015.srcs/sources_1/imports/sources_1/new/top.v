@@ -50,7 +50,7 @@ wire [1:0] BUS_INTERRUPTS_ACK;
 
 //assign LEDX = MouseRegX;
 //assign LEDY = MouseRegY;
-assign LEDS = {XS,YS,'h0};
+assign LEDS = {XS,YS,4'h0};
 
 Processor u_Processor(
     //Standard Signals
@@ -110,7 +110,7 @@ Mouse_Driver u_Mouse_Driver(
     //     Mouse data information
     .XS(XS),
     .YS(YS),
-    .BTNS(BTNS)
+    .BTNS(MBTNS)
 );
 
 RAM u_RAM (

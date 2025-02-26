@@ -27,13 +27,11 @@ module MouseReceiver(
     input               CLK_MOUSE_IN,
     input               DATA_MOUSE_IN,
     input               READ_ENABLE,
-    output [7:0]    BYTE_READ,
-    output [1:0]    BYTE_ERROR_CODE,
-    output          BYTE_READY,
+    output [7:0]        BYTE_READ,
+    output [1:0]        BYTE_ERROR_CODE,
+    output              BYTE_READY,
     output [3:0]        STATE
 );
-
-
 
 // define state parameters
 localparam STATE_IDLE        = 4'd0;

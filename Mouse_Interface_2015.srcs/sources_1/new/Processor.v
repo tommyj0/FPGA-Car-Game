@@ -234,14 +234,14 @@ always@* begin
             4'h2: NextState = WRITE_TO_MEM_FROM_A;
             4'h3: NextState = WRITE_TO_MEM_FROM_B;
             4'h4: NextState = DO_MATHS_OPP_SAVE_IN_A;
-            4'h5:NextState = DO_MATHS_OPP_SAVE_IN_B;
-            4'h6:NextState = IF_A_EQUALITY_B_GOTO;
+            4'h5: NextState = DO_MATHS_OPP_SAVE_IN_B;
+            4'h6: NextState = IF_A_EQUALITY_B_GOTO;
             4'h7: NextState = GOTO;
-            4'h8:NextState = IDLE;
-            4'h9:NextState = FUNCTION_START;
-            4'hA:NextState = RETURN;
-            4'hB:NextState = DE_REFERENCE_A;
-            4'hC:NextState = DE_REFERENCE_B;
+            4'h8: NextState = IDLE;
+            4'h9: NextState = FUNCTION_START;
+            4'hA: NextState = RETURN;
+            4'hB: NextState = DE_REFERENCE_A;
+            4'hC: NextState = DE_REFERENCE_B;
             default:
                 NextState = CurrState;
             endcase

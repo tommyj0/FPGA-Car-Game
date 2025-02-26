@@ -46,6 +46,7 @@ reg RAMBusWE;
 reg [7:0] Mem0;
 reg [7:0] Mem1;
 
+assign BufferedBusData = BUS_DATA;
 
 //single port ram 
 always@(posedge CLK)
