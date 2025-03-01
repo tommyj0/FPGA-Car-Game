@@ -98,7 +98,15 @@ def write_mem_instr(file_p,line,label=''): # handle mem access type
     return
 
   check_token_num(line,3)
-  write_byte(file_p,int(line[2],0))
+  if is_int(line[2]):
+    write_byte(file_p,int(line[2],0))
+  else:
+    try: # try to write the label address
+      write_byte(file_p,label_lut[line[2]])
+    except KeyError:
+      file_p.write(line[2])
+      global address_counter
+      address_counter += 1
   file_p.write("\n")
 
 def write_branch_instr(file_p,line,label=''): # handle branch type
@@ -153,7 +161,11 @@ for line in asm:
       label_lut[label.replace(':', '')] = address_counter # why +1?
       line = line[1:]
     else:
-      raise Exception(f"Label {label} does not match any instruction")
+      try: 
+        label_lut[line[0].replace(':', '')] = int(line[1],0)
+        continue
+      except ValueError:
+        raise Exception(f"Memory address {line[1]} is not a valid integer")
 
   if code in math_lut:
     write_math_instr(rom_f,line,label)
