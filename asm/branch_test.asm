@@ -1,6 +1,7 @@
 inca a
 inca a
 inca a
-incb b
-beq 0x8
-goto 0x3
+LOOP: incb b
+beq BREAK
+goto LOOP
+BREAK: add a

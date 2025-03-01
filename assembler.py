@@ -52,6 +52,7 @@ def write_byte(file_p,num): # write instruction to machine code file
   file_p.write(f"{hex_token}")
   global address_counter # too lazy to think of a nice way
   address_counter += 1
+  print(f"wrote this {hex_token}")
 
 def check_dest_reg(rd): # check that rd is either a or b
   if "a" not in rd and "b" not in rd:
@@ -118,6 +119,8 @@ def write_branch_instr(file_p,line,label=''): # handle branch type
       write_byte(file_p,label_lut[line[1]])
     except KeyError:
       file_p.write(line[1]) # if label doesn't exist write the label name, we will go back and replace it after the first pass
+      global address_counter
+      address_counter += 1
   file_p.write("\n")
 
 n = len(sys.argv) # get input args
@@ -147,7 +150,7 @@ for line in asm:
     # If a label matches an instruction store the address counter of the label
     if line[1] in math_lut or line[1] in mem_lut or line[1] in branch_lut:
       code = line[1]
-      label_lut[label.replace(':', '')] = address_counter + 1 # why +1?
+      label_lut[label.replace(':', '')] = address_counter # why +1?
       line = line[1:]
     else:
       raise Exception(f"Label {label} does not match any instruction")
