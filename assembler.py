@@ -1,6 +1,7 @@
 # TODO implement labels, can't think of anything else 
 
 import sys
+import re
 
 # LUTs for each "type" of instruction
 
@@ -38,8 +39,8 @@ branch_lut = {
 address_counter = 0x0 # check where we are in machine code
 # n.b. because of var length instructions: instruction count != byte count
 
-def write_comment(file_p, com): # write the instruction as a comment
-  file_p.write(f"  // {' '.join(com)}")
+def write_comment(file_p, com, label=''): # write the instruction as a comment
+  file_p.write(f"  // {label} {' '.join(com)}")
 
 def write_byte(file_p,num): # write instruction to machine code file
   if num > 255: # panic if you get something bigger than a byte
@@ -60,7 +61,16 @@ def check_token_num(line,num): # error handling for number of tokens
   if (len(line) != num):
     raise Exception(f"ERROR: \ninstruction: {' '.join(line)}should only contain {num} tokens")
 
-def write_math_instr(file_p,line): # handle math type
+def is_int(s): # check if a string is an int
+  try:
+    if re.match('^[0-9]*$', s):
+      return True
+    int(s,0)
+    return True
+  except ValueError:
+    return False
+
+def write_math_instr(file_p,line,label=''): # handle math type
   check_dest_reg(line[1])
   check_token_num(line,2)
   instr = math_lut[line[0]]
@@ -69,17 +79,17 @@ def write_math_instr(file_p,line): # handle math type
     instr += 1
 
   write_byte(file_p,instr)
-  write_comment(file_p,line)
+  write_comment(file_p,line,label)
   file_p.write("\n")
 
-def write_mem_instr(file_p,line): # handle mem access type
+def write_mem_instr(file_p,line,label=''): # handle mem access type
   check_dest_reg(line[1])
   instr = mem_lut[line[0]]
   if "b" in line[1]:
     instr += 1
 
   write_byte(file_p,instr)
-  write_comment(file_p,line)
+  write_comment(file_p,line,label)
   file_p.write("\n")
 
   if "dref" in line[0]: # dref doesn't take an immediate address so return early
@@ -90,10 +100,10 @@ def write_mem_instr(file_p,line): # handle mem access type
   write_byte(file_p,int(line[2],0))
   file_p.write("\n")
 
-def write_branch_instr(file_p,line): # handle branch type
+def write_branch_instr(file_p,line,label=''): # handle branch type
   instr = branch_lut[line[0]]
   write_byte(file_p,instr)
-  write_comment(file_p,line)
+  write_comment(file_p,line,label)
   file_p.write("\n")
 
   if "ret" in line[0] or "idle" in line[0]: # ret & idle don't need an address
@@ -101,7 +111,13 @@ def write_branch_instr(file_p,line): # handle branch type
     return
 
   check_token_num(line,2)
-  write_byte(file_p,int(line[1],0))
+  if is_int(line[1]):
+    write_byte(file_p,int(line[1],0))
+  else:
+    try: # try to write the label address
+      write_byte(file_p,label_lut[line[1]])
+    except KeyError:
+      file_p.write(line[1]) # if label doesn't exist write the label name, we will go back and replace it after the first pass
   file_p.write("\n")
 
 n = len(sys.argv) # get input args
@@ -113,6 +129,8 @@ ram_f = open(ram_fp,"w")
 asm_f = open(sys.argv[1],"r")
 asm = asm_f.readlines()
 
+label_lut = {} # label lookup table
+
 for line in asm:
   line = line.replace('\n','') 
   line = line.strip() # mainly for trailing whitespace
@@ -121,12 +139,27 @@ for line in asm:
   line = line.split(" ")
   code = line[0]
 
+  label = ''
+
+  # Match labels
+  if re.match(r'[A-Z]*:', line[0]):
+    label = line[0]
+    # If a label matches an instruction store the address counter of the label
+    if line[1] in math_lut or line[1] in mem_lut or line[1] in branch_lut:
+      code = line[1]
+      label_lut[label.replace(':', '')] = address_counter + 1 # why +1?
+      line = line[1:]
+    else:
+      raise Exception(f"Label {label} does not match any instruction")
+
   if code in math_lut:
-    write_math_instr(rom_f,line)
+    write_math_instr(rom_f,line,label)
   elif code in mem_lut:
-    write_mem_instr(rom_f,line)
+    write_mem_instr(rom_f,line,label)
   elif code in branch_lut:
-    write_branch_instr(rom_f,line)
+    write_branch_instr(rom_f,line,label)
+  elif code == "":
+    continue
   else:
     raise Exception(f"code {code} is not a part of the ISA")
 
@@ -141,3 +174,29 @@ for i in range(256 - address_counter): # fill rest of rom init with nops (idle)
 
 for i in range(128): # TODO: add constants, for now fill ram with 0s
   ram_f.write("00\n")
+
+rom_f.close()
+ram_f.close()
+asm_f.close()
+
+# Second pass to replace labels with addresses
+with open(rom_fp, "r") as rom_f:
+  lines = rom_f.readlines()  
+  modified_lines = []
+  for line in lines:
+    parts = line.strip().split(" ")  # Strip and split the line
+
+    if not is_int(parts[0]):
+      try:
+          label_hex = hex(label_lut[parts[0]])[2:]
+          if len(label_hex) == 1: # display 1 digit as 2 digit 
+            parts[0] = f"0{label_hex}"
+          else:
+            parts[0] = hex(label_lut[parts[0]])[2:]  # Replace first part
+      except KeyError:
+          raise Exception(f"Label {parts[0]} not found")
+
+    modified_lines.append(" ".join(parts))  # Rejoin and store the modified line
+
+with open(rom_fp, "w") as rom_f:
+  rom_f.write("\n".join(modified_lines) + "\n")
