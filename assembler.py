@@ -52,7 +52,7 @@ def write_byte(file_p,num): # write instruction to machine code file
   file_p.write(f"{hex_token}")
   global address_counter # too lazy to think of a nice way
   address_counter += 1
-  print(f"wrote this {hex_token}")
+  # print(f"wrote this {hex_token}")
 
 def check_dest_reg(rd): # check that rd is either a or b
   if "a" not in rd and "b" not in rd:
@@ -66,7 +66,7 @@ def is_int(s): # check if a string is an int
   try:
     if re.match('^[0-9]*$', s):
       return True
-    int(s,0)
+    int(s,base=16) # weird things were happening
     return True
   except ValueError:
     return False
