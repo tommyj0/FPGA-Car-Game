@@ -72,7 +72,9 @@ assign ProgMemoryOut = ROM_DATA;
 //Instantiate the ALU
 //The processor has an integrated ALU that can do several different operations
 wire [7:0] AluOut;
-
+wire [7:0] AluIn_A;
+wire [7:0] AluIn_B;
+//assign AluIn_B = 
 ALU ALU0(
     //standard signals
     .CLK(CLK),
@@ -463,7 +465,6 @@ always@* begin
         from
         function, and Dereference operations.
         */
-        // TODO
     endcase
 end
 

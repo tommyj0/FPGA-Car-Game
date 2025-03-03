@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # TODO implement labels, can't think of anything else 
 
 import sys
@@ -18,6 +19,10 @@ math_lut = {
   "eq"    : 0x94,
   "gt"    : 0xA4,
   "lt"    : 0xB4,
+  "not"   : 0xC4,
+  "and"   : 0xD4,
+  "or"    : 0xE4,
+  "xor"   : 0xF4,
 }
 
 mem_lut = {
@@ -60,6 +65,7 @@ def check_dest_reg(rd): # check that rd is either a or b
 
 def check_token_num(line,num): # error handling for number of tokens
   if (len(line) != num):
+    print(line)
     raise Exception(f"ERROR: \ninstruction: {' '.join(line)}should only contain {num} tokens")
 
 def is_int(s): # check if a string is an int
@@ -73,15 +79,21 @@ def is_int(s): # check if a string is an int
 
 def write_math_instr(file_p,line,label=''): # handle math type
   check_dest_reg(line[1])
-  check_token_num(line,2)
+  # check_token_num(line,2)
   instr = math_lut[line[0]]
 
   if "b" in line[1]:
     instr += 1
+  if len(line) == 3:
+    instr += 9
 
   write_byte(file_p,instr)
   write_comment(file_p,line,label)
   file_p.write("\n")
+  if len(line) == 2:
+    return
+  check_token_num(line,3)
+  write_byte(file_p,line[2])
 
 def write_mem_instr(file_p,line,label=''): # handle mem access type
   check_dest_reg(line[1])
@@ -141,6 +153,7 @@ asm_f = open(sys.argv[1],"r")
 asm = asm_f.readlines()
 
 label_lut = {} # label lookup table
+# mem_lut = {} # memory lookup table
 
 for line in asm:
   line = line.replace('\n','') 
@@ -148,13 +161,23 @@ for line in asm:
   if not line:
     continue
   line = line.split(" ")
+
+  if '//' in line: # remove comments
+    line = line[:line.index('//')]
+  if not line:
+    continue
+
   code = line[0]
 
   label = ''
 
+  filtered_line = [token for token in line if token] # remove empty strings
+  line = filtered_line
   # Match labels
-  if re.match(r'[A-Z]*:', line[0]):
-    label = line[0]
+  if re.match(r'[A-Z_]*:', line[0]):
+    # filtered_line = [token for token in line if token] # remove empty strings
+    # line = filtered_line
+    label = line[0]    
     # If a label matches an instruction store the address counter of the label
     if line[1] in math_lut or line[1] in mem_lut or line[1] in branch_lut:
       code = line[1]
@@ -165,6 +188,7 @@ for line in asm:
         label_lut[line[0].replace(':', '')] = int(line[1],0)
         continue
       except ValueError:
+        print(f"line {line} is not valid ")
         raise Exception(f"Memory address {line[1]} is not a valid integer")
 
   if code in math_lut:
@@ -212,6 +236,8 @@ with open(rom_fp, "r") as rom_f:
           raise Exception(f"Label {parts[0]} not found")
 
     modified_lines.append(" ".join(parts))  # Rejoin and store the modified line
+  vga_int = hex(label_lut["VGA_INT"])[2:]
+  modified_lines[0xFE] = f"0{vga_int}" if len(vga_int) == 1 else vga_int  # set the VGA interrupt address
 
 with open(rom_fp, "w") as rom_f:
   rom_f.write("\n".join(modified_lines) + "\n")

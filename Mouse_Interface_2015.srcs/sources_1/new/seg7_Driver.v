@@ -33,18 +33,19 @@ module seg7_Driver(
     output        [7:0]    HEX_OUT
 );
 
+
 // 7-Seg wires
 wire [1:0] StrobeCount;
 wire [3:0] SEG_BIN;
 parameter RAMBaseAddr = 8'hD0;
 parameter RAMSize = 'h2;
 
+
 //Tristate
 wire [7:0] BufferedBusData;
 reg [7:0] Out;
 reg RAMBusWE;
-reg [7:0] Mem0;
-reg [7:0] Mem1;
+reg [7:0] Mem [0:1];
 
 assign BufferedBusData = BUS_DATA;
 
@@ -52,13 +53,13 @@ assign BufferedBusData = BUS_DATA;
 always@(posedge CLK)
 begin
     // Brute-force RAM address decoding. Think of a simpler way...
-    if ((BUS_ADDR >= RAMBaseAddr) & (BUS_ADDR < RAMBaseAddr + 2)) 
+    if ((BUS_ADDR >= RAMBaseAddr) & (BUS_ADDR < RAMBaseAddr + RAMSize)) 
     begin
         if(BUS_WE) 
         begin
             case(BUS_ADDR)
-                8'hD0: Mem0 <= BufferedBusData;
-                8'hD1: Mem1 <= BufferedBusData;
+                8'hD0: Mem[0] <= BufferedBusData;
+                8'hD1: Mem[1] <= BufferedBusData;
             endcase
         end 
     end 
@@ -97,10 +98,10 @@ seg7decoder u_seg7decoder(
 );
 
 mux_4x1 u_mux_4x1( 
-        .IN1(Mem0[3:0]),                 // 4-bit input
-        .IN2(Mem0[7:4]),                 // 4-bit input
-        .IN3(Mem1[3:0]),                 // 4-bit input
-        .IN4(Mem1[7:4]),                 // 4-bit input
+        .IN1(Mem[1][3:0]),                 // 4-bit input
+        .IN2(Mem[1][7:4]),                 // 4-bit input
+        .IN3(Mem[0][3:0]),                 // 4-bit input
+        .IN4(Mem[0][7:4]),                 // 4-bit input
         .CTRL(StrobeCount),               // Control 
         .OUT(SEG_BIN)                       
 );      

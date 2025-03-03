@@ -46,9 +46,9 @@ begin
             //Multiply A * B
             4'h2: Out <= IN_A * IN_B;
             //Shift Left A << 1
-            4'h3: Out <= IN_A << 1;
+            4'h3: Out <= IN_A << IN_B;
             //Shift Right A >> 1
-            4'h4: Out <= IN_A >> 1;
+            4'h4: Out <= IN_A >> IN_B;
             //Increment A+1
             4'h5: Out <= IN_A + 1'b1;
             //Increment B+1
@@ -64,6 +64,14 @@ begin
             4'hA: Out <= (IN_A > IN_B) ? 8'h01 : 8'h00;
             //A < B
             4'hB: Out <= (IN_A < IN_B) ? 8'h01 : 8'h00;
+            // NOT ~A
+            4'hC: Out <= ~IN_A;
+            // AND A & B
+            4'hD: Out <= IN_A & IN_B;
+            // OR A | B
+            4'hE: Out <= IN_A | IN_B;
+            // XOR A ^ B
+            4'hF: Out <= IN_A ^ IN_B;
             //Default A
             default: Out <= IN_A;
         endcase

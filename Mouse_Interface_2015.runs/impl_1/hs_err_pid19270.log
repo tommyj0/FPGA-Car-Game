@@ -1,0 +1,22 @@
+#
+# An unexpected error has occurred (11)
+#
+Stack:
+/lib/x86_64-linux-gnu/libc.so.6(+0x45330) [0x785b8b445330]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_dlyest.so(HADE4UnplacedPinMapperCache::getSiteFromCache(HDLHInstance const&, HDDMSite const&, bool) const+0xd6) [0x785b662cd606]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_dlyest.so(HADE4UnplacedPinMapperV7::getLocNearSite(HDLHInstance const&, HDDMSite const&, int, bool, bool) const+0x159) [0x785b662cf909]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_place.so(HAPLFPhyPinMapper::getLocNearSite(HDLHInstance const&, HDDMSite const&, int, bool, bool) const+0x48) [0x785b6f30e8f8]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_dlyest.so(HADEPinMapper::getLocs(HDLHInstance const&, HDLHInstance const&, HDPLLoc&, HDPLLoc&, int, bool, HDLHInstTerm const&) const+0x28d) [0x785b662d120d]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_dlyest.so(HADEPinMapper::getPhyPins(HDLHInstTerm const&, HDLHInstTerm const&, HSTVector<HDPLPhyPin, std::allocator<HDPLPhyPin> >&, HSTVector<HDPLPhyPin, std::allocator<HDPLPhyPin> >&, bool&, bool&, bool, bool&) const+0x1b6) [0x785b662d2e36]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_dlyest.so(HADE4WireDlyCalc::getDelay(HDLHElement const&, HDLHElement const&, bool, bool, bool, bool, bool, int) const+0xbb7) [0x785b6632ea97]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_dlyest.so(HADE4WireDlyCalc::getDelay(HDLHElement const&, HDLHElement const&, int, bool, bool, bool, bool) const+0x74) [0x785b66331984]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_dlyest.so(HADE4WireDlyCalc::getDelay(HDLHElement const&, HDLHElement const&, int) const+0x391) [0x785b6632b471]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_dlyest.so(HADE4WireDlyCalc::getDelay(HDLHElement const&, HDLHElement const&, sta::TimingArc const*, int) const+0xc) [0x785b6632b53c]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_dlyest.so(HADEDlyMediator::fallBackWireDlyCalc(HDLHNet const*, HDLHInstTerm const*, int, std::vector<HADEDlyMediatorPacket, std::allocator<HADEDlyMediatorPacket> >&, HADEDlyMediatorPacket::HADEDLYMED_DLYTYPE) const+0x112) [0x785b66349c42]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_dlyest.so(HADEDlyMediator::oldGetDelay(HDLHNet const*, HDLHInstTerm const*, std::vector<HADEDlyMediatorPacket, std::allocator<HADEDlyMediatorPacket> >&, int) const+0x3f6) [0x785b663676a6]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_dlyest.so(HADEDlyMediator::getDelay(HDLHNet const*, HDLHInstTerm const*, std::vector<HADEDlyMediatorPacket, std::allocator<HADEDlyMediatorPacket> >&, int) const+0x464) [0x785b66361634]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_timing.so(HAST3Sta::setWireDelayOnVertex(sta::Vertex*, HSTVector<sta::Edge*, std::allocator<sta::Edge*> > const*, HAST3TimingParams const&)+0x64c) [0x785b6b1b4f0c]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_timing.so(void* HCTThreadUtils::forEachStart<__gnu_cxx::__normal_iterator<std::pair<sta::Vertex*, unsigned int>*, std::vector<std::pair<sta::Vertex*, unsigned int>, std::allocator<std::pair<sta::Vertex*, unsigned int> > > >, boost::function<void (std::pair<sta::Vertex*, unsigned int>&)> >(void*)+0x91) [0x785b6b1bd601]
+/tools/Xilinx/Vivado/2015.2/lib/lnx64.o/librdi_common.so(HCTWorkingThread::threadStart(void*)+0x7c) [0x785b8ca5c41c]
+/lib/x86_64-linux-gnu/libc.so.6(+0x9caa4) [0x785b8b49caa4]
+/lib/x86_64-linux-gnu/libc.so.6(+0x129c3c) [0x785b8b529c3c]

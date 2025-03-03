@@ -61,7 +61,7 @@ assign BUS_DATA = RAMBusWE ? Out : 8'hZZ;
 
 always@(posedge CLK)
 begin
-    if ((BUS_ADDR >= 8'hA0) & (BUS_ADDR <= 8'hA2))
+    if ((BUS_ADDR >= RAMBaseAddr) & (BUS_ADDR < RAMBaseAddr + RAMSize))
     begin
         if (BUS_WE)
             RAMBusWE <= 1'h0;

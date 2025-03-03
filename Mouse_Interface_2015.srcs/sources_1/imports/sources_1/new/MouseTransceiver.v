@@ -38,6 +38,7 @@ module MouseTransceiver(
     output reg      INTERRUPT_RAISE
 );
 
+
 reg [10:0] MouseX;
 reg [10:0] MouseY;
 
