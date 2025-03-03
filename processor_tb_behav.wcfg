@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="13" />
+   <WVObjectSize size="15" />
    <wvobject db_ref_id="1" type="logic" fp_name="/processor_tb/CLK">
       <obj_property name="ElementShortName">CLK</obj_property>
       <obj_property name="ObjectShortName">CLK</obj_property>
@@ -59,16 +59,36 @@
       <obj_property name="ElementShortName">CurrState[7:0]</obj_property>
       <obj_property name="ObjectShortName">CurrState[7:0]</obj_property>
    </wvobject>
+   <wvobject db_ref_id="1" type="array" fp_name="/processor_tb/u_Processor/ProgMemoryOut">
+      <obj_property name="ElementShortName">ProgMemoryOut[7:0]</obj_property>
+      <obj_property name="ObjectShortName">ProgMemoryOut[7:0]</obj_property>
+   </wvobject>
    <wvobject type="group" fp_name="group43">
       <obj_property name="label">SEG7</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <wvobject db_ref_id="1" type="array" fp_name="/processor_tb/u_seg7_Driver/Mem0">
-         <obj_property name="ElementShortName">Mem0[7:0]</obj_property>
-         <obj_property name="ObjectShortName">Mem0[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="group" fp_name="group165">
+      <obj_property name="label">ALU</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject db_ref_id="1" type="array" fp_name="/processor_tb/u_Processor/ALU0/IN_A">
+         <obj_property name="ElementShortName">IN_A[7:0]</obj_property>
+         <obj_property name="ObjectShortName">IN_A[7:0]</obj_property>
       </wvobject>
-      <wvobject db_ref_id="1" type="array" fp_name="/processor_tb/u_seg7_Driver/Mem1">
-         <obj_property name="ElementShortName">Mem1[7:0]</obj_property>
-         <obj_property name="ObjectShortName">Mem1[7:0]</obj_property>
+      <wvobject db_ref_id="1" type="array" fp_name="/processor_tb/u_Processor/ALU0/IN_B">
+         <obj_property name="ElementShortName">IN_B[7:0]</obj_property>
+         <obj_property name="ObjectShortName">IN_B[7:0]</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" type="array" fp_name="/processor_tb/u_Processor/ALU0/ALU_Op_Code">
+         <obj_property name="ElementShortName">ALU_Op_Code[3:0]</obj_property>
+         <obj_property name="ObjectShortName">ALU_Op_Code[3:0]</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" type="array" fp_name="/processor_tb/u_Processor/ALU0/OUT_RESULT">
+         <obj_property name="ElementShortName">OUT_RESULT[7:0]</obj_property>
+         <obj_property name="ObjectShortName">OUT_RESULT[7:0]</obj_property>
+      </wvobject>
+      <wvobject db_ref_id="1" type="array" fp_name="/processor_tb/u_Processor/ALU0/Out">
+         <obj_property name="ElementShortName">Out[7:0]</obj_property>
+         <obj_property name="ObjectShortName">Out[7:0]</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

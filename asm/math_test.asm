@@ -6,6 +6,6 @@ add b
 mul a
 mul b
 or a
-and b
+and b 0
 not b
 xor a

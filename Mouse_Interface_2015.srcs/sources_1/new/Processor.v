@@ -74,15 +74,22 @@ assign ProgMemoryOut = ROM_DATA;
 wire [7:0] AluOut;
 wire [7:0] AluIn_A;
 wire [7:0] AluIn_B;
-//assign AluIn_B = 
+wire [3:0] AluOpCode;
+reg NextImmMode, CurrImmMode;
+reg [3:0] NextImmOpCode, CurrImmOpCode;
+
+assign AluIn_A = CurrImmMode ?  CurrRegSelect ? CurrRegA : CurrRegB : CurrRegA;
+assign AluIn_B = CurrImmMode ? ProgMemoryOut : CurrRegB;
+assign AluOpCode = CurrImmMode ? CurrImmOpCode : ProgMemoryOut[7:4];
+
 ALU ALU0(
     //standard signals
     .CLK(CLK),
     .RESET(RESET),
     //I/O
-    .IN_A(CurrRegA),
-    .IN_B(CurrRegB),
-    .ALU_Op_Code(ProgMemoryOut[7:4]),
+    .IN_A(AluIn_A),
+    .IN_B(AluIn_B),
+    .ALU_Op_Code(AluOpCode),
     .OUT_RESULT(AluOut)
 );
 
@@ -141,14 +148,18 @@ RETURN_0 = 8'h71,
 DE_REFERENCE_A = 8'h80, // Wait to find what address to read, save reg select
 DE_REFERENCE_B = 8'h81, // Wait to find what address to read, save reg select
 DE_REFERENCE_0 = 8'h82, // Set BUS_ADDR to designated adress, wait - Increments program counter by 2. Reset Offset
-DE_REFERENCE_1 = 8'h83; // Write memory output to chosen register, end op
+DE_REFERENCE_1 = 8'h83, // Write memory output to chosen register, end op
+DO_IMM_OPP_SAVE_IN_A = 8'h90, //The result of maths op. is available, save it to Reg A.
+DO_IMM_OPP_SAVE_IN_B = 8'h91, //The result of maths op. is available, save it to Reg B.
+DO_IMM_OPP_0 = 8'h92, //wait for new op address to settle. end op.
+DO_IMM_OPP_1 = 8'h93, //wait for new op address to settle. end op.
+DO_IMM_OPP_2 = 8'h94; //wait for new op address to settle. end op.
 
 // END
 /*
 Complete the above parameter list for In/Equality, Goto Address, Goto Idle, function start, Return from
 function, and Dereference operations.
 */
-//  TODO // KINDA DONE
 //Sequential part of the State Machine.
 reg [7:0] CurrState, NextState;
 always@(posedge CLK) 
@@ -165,6 +176,8 @@ begin
         CurrRegSelect = 1'b0;
         CurrProgContext = 8'h00;
         CurrInterruptAck = 2'b00;
+        CurrImmOpCode = 4'h0;
+        CurrImmMode = 1'h0;
     end else begin
         CurrState = NextState;
         CurrProgCounter = NextProgCounter;
@@ -177,6 +190,8 @@ begin
         CurrRegSelect = NextRegSelect;
         CurrProgContext = NextProgContext;
         CurrInterruptAck = NextInterruptAck;
+        CurrImmOpCode = NextImmOpCode;
+        CurrImmMode = NextImmMode;
     end
 end
 
@@ -194,6 +209,8 @@ always@* begin
     NextRegSelect = CurrRegSelect;
     NextProgContext = CurrProgContext;
     NextInterruptAck = 2'b00;
+    NextImmOpCode = CurrImmOpCode;
+    NextImmMode = CurrImmMode;
     //Case statement to describe each state
     case (CurrState)
         ///////////////////////////////////////////////////////////////////////////////////////
@@ -244,6 +261,8 @@ always@* begin
             4'hA: NextState = RETURN;
             4'hB: NextState = DE_REFERENCE_A;
             4'hC: NextState = DE_REFERENCE_B;
+            4'hD: NextState = DO_IMM_OPP_SAVE_IN_A;
+            4'hE: NextState = DO_IMM_OPP_SAVE_IN_B;
             default:
                 NextState = CurrState;
             endcase
@@ -457,7 +476,44 @@ always@* begin
             else
                 NextRegB = BusDataIn;
         end
-        
+        ///////////////////////////////////////////////////////////////////////////////////////
+        //DO_IMM_OPP_SAVE_IN_A : here starts the DoMathsImm operational pipeline.
+        // Reg A and Reg B must already be set to the desired values. The MSBs of the
+        // Operation type determines the maths operation type. At this stage the result is
+        // ready to be collected from the ALU.
+        DO_IMM_OPP_SAVE_IN_A: 
+        begin
+            NextState = DO_IMM_OPP_0;
+            NextRegSelect = 'b0;
+            NextImmOpCode = ProgMemoryOut[7:4];
+            NextImmMode = 'b1;
+//            NextProgCounter = CurrProgCounter + 2;
+        end
+        //DO_IMM_OPP_SAVE_IN_B : here starts the DoMathsImm operational pipeline
+        //when the result will go into reg B.
+        DO_IMM_OPP_SAVE_IN_B: 
+        begin
+            NextState = DO_IMM_OPP_0;
+            NextRegSelect = 'b1;
+            NextImmOpCode = ProgMemoryOut[7:4];
+            NextImmMode = 'b1;
+        end
+        //Wait state for new prog address to settle.
+        DO_IMM_OPP_0: 
+        begin
+            NextProgCounter = CurrProgCounter + 2;
+            NextState = DO_IMM_OPP_1;
+        end
+        //Wait state for new prog address to settle.
+        DO_IMM_OPP_1: 
+        begin
+            NextState = CHOOSE_OPP;
+            NextImmMode = 'b0;
+            if (~CurrRegSelect)
+                NextRegA = AluOut;
+            else
+                NextRegB = AluOut;
+        end
         //////////////////////////// END ////////////////////////////////////
 
         /*

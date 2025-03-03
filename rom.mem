@@ -5,7 +5,8 @@
 24  //  mul a
 25  //  mul b
 e4  //  or a
-d5  //  and b
+de  //  and b 0
+00
 c5  //  not b
 f4  //  xor a
 08
@@ -251,6 +252,5 @@ f4  //  xor a
 08
 08
 08
+00
 08
-00
-00
