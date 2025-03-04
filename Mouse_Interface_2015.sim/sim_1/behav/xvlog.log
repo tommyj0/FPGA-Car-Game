@@ -53,5 +53,8 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tommyj/AMD_FPGA/Mouse_Interfa
 INFO: [VRFC 10-311] analyzing module top_tb
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.srcs/sim_1/new/processor_tb.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module processor_tb
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.srcs/sim_1/new/alu_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module alu_tb
+WARNING: [VRFC 10-2019] loop variable declaration is not allowed in this mode of verilog [/home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.srcs/sim_1/new/alu_tb.v:107]
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.sim/sim_1/behav/glbl.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module glbl

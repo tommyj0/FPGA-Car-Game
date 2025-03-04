@@ -37,6 +37,8 @@ module seg7_Driver(
 // 7-Seg wires
 wire [1:0] StrobeCount;
 wire [3:0] SEG_BIN;
+
+// RAM address parameters
 parameter RAMBaseAddr = 8'hD0;
 parameter RAMSize = 'h2;
 
@@ -55,9 +57,9 @@ begin
     // Brute-force RAM address decoding. Think of a simpler way...
     if ((BUS_ADDR >= RAMBaseAddr) & (BUS_ADDR < RAMBaseAddr + RAMSize)) 
     begin
-        if(BUS_WE) 
+        if(BUS_WE) // check that the bus is in write mode
         begin
-            case(BUS_ADDR)
+            case(BUS_ADDR) // write to appropriate reg
                 8'hD0: Mem[0] <= BufferedBusData;
                 8'hD1: Mem[1] <= BufferedBusData;
             endcase

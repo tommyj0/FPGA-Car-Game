@@ -37,6 +37,7 @@ module Mouse_Driver(
     
 );
 
+// RAM address parameters
 parameter RAMBaseAddr = 8'hA0;
 parameter RAMSize = 8'h3;
 parameter MOUSE_STATUS = 8'hA0;
@@ -57,17 +58,18 @@ assign BUS_DATA = RAMBusWE ? Out : 8'hZZ;
 
 always@(posedge CLK)
 begin
+    // Address decode
     if ((BUS_ADDR >= RAMBaseAddr) & (BUS_ADDR < RAMBaseAddr + RAMSize))
     begin
-        if (BUS_WE)
+        if (BUS_WE) // check that write enable is low before driving data bus
             RAMBusWE <= 1'h0;
         else
             RAMBusWE <= 1'h1;
     end
     else
-        RAMBusWE <= 1'h0;
+        RAMBusWE <= 1'h0; // if address is incorrect, leave data bus undriven 
         
-    case(BUS_ADDR)
+    case(BUS_ADDR) // set appropriate output
         MOUSE_STATUS: Out <= MouseStatus;
         MOUSE_X: Out <= MouseX;
         MOUSE_Y: Out <= MouseY;

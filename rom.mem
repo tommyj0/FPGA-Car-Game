@@ -10,7 +10,7 @@ d1
 a0
 02  //  stb a LEDS_LO
 c0
-08  //  idle
+08  // END: idle
 08
 08
 08

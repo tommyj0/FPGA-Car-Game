@@ -30,13 +30,14 @@ module ALU(
     input [3:0] ALU_Op_Code, 
     output [7:0] OUT_RESULT
 );
-
+// ALU output
 reg [7:0] Out;
+
 //Arithmetic Computation
 always@(posedge CLK)
 begin
     if(RESET)
-    Out <= 0;
+        Out <= 0;
     else begin
         case (ALU_Op_Code)
             //Maths Operations
@@ -46,9 +47,9 @@ begin
             4'h1: Out <= IN_A - IN_B;
             //Multiply A * B
             4'h2: Out <= IN_A * IN_B;
-            //Shift Left A << 1
+            //Shift Left A << B
             4'h3: Out <= IN_A << IN_B;
-            //Shift Right A >> 1
+            //Shift Right A >> B
             4'h4: Out <= IN_A >> IN_B;
             //Increment A+1
             4'h5: Out <= IN_A + 1'b1;
@@ -65,6 +66,7 @@ begin
             4'hA: Out <= (IN_A > IN_B) ? 8'h01 : 8'h00;
             //A < B
             4'hB: Out <= (IN_A < IN_B) ? 8'h01 : 8'h00;
+            // Additional Logic Functions
             // NOT ~A
             4'hC: Out <= ~IN_A;
             // AND A & B

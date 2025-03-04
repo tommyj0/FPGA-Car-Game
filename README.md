@@ -37,8 +37,34 @@ outputs written to ram.mem and rom.mem in the root project folder
 | eq   | reg |     | reg = a == b      |
 | gt   | reg |     | reg = a > b       |
 | lt   | reg |     | reg = a < b       |
+| not  | reg |     | reg = ~a          |
+| and  | reg |     | reg = a & b       |
+| or   | reg |     | reg = a | b       |
+| xor  | reg |     | reg = a ^ b       |
 
-## Memory 
+
+### Math Immediate
+
+| Opp  | Rd  | IMM |     | Description       |
+|------|-----|-----|-----|-------------------|
+| add  | reg | imm |     | reg = reg + imm   |
+| sub  | reg | imm |     | reg = reg - imm   |
+| mul  | reg | imm |     | reg = reg * imm   |
+| sll  | reg | imm |     | reg = reg << imm  |
+| srl  | reg | imm |     | reg = reg >> imm  |
+| inca | reg | imm |     | reg = reg + 1     |
+| incb | reg | imm |     | reg = reg + 1     |
+| deca | reg | imm |     | reg = reg - 1     |
+| decb | reg | imm |     | reg = reg - 1     |
+| eq   | reg | imm |     | reg = reg == imm  |
+| gt   | reg | imm |     | reg = reg > imm   |
+| lt   | reg | imm |     | reg = reg < imm   |
+| not  | reg | imm |     | reg = ~reg        |
+| and  | reg | imm |     | reg = reg & imm   |
+| or   | reg | imm |     | reg = reg | imm   |
+| xor  | reg | imm |     | reg = reg ^ imm   |
+
+### Memory 
 
 | Opp  | Rd  | MEM  |     | Description       |
 |------|-----|------|-----|-------------------|
@@ -46,7 +72,7 @@ outputs written to ram.mem and rom.mem in the root project folder
 | stb  | reg | ADDR |     | [ADDR] = reg      |
 | dref | reg |      |     | reg = [reg]       |
 
-## Branch 
+### Branch 
 
 | Opp  | MEM  |     | Description                  |
 |------|------|-----|------------------------------|

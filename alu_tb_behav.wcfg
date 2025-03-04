@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="alu_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="alu_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="6" />
+   <wvobject db_ref_id="1" type="logic" fp_name="/alu_tb/CLK">
+      <obj_property name="ElementShortName">CLK</obj_property>
+      <obj_property name="ObjectShortName">CLK</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" type="logic" fp_name="/alu_tb/RESET">
+      <obj_property name="ElementShortName">RESET</obj_property>
+      <obj_property name="ObjectShortName">RESET</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" type="array" fp_name="/alu_tb/AluIn_A">
+      <obj_property name="ElementShortName">AluIn_A[7:0]</obj_property>
+      <obj_property name="ObjectShortName">AluIn_A[7:0]</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" type="array" fp_name="/alu_tb/AluIn_B">
+      <obj_property name="ElementShortName">AluIn_B[7:0]</obj_property>
+      <obj_property name="ObjectShortName">AluIn_B[7:0]</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" type="array" fp_name="/alu_tb/AluOpCode">
+      <obj_property name="ElementShortName">AluOpCode[3:0]</obj_property>
+      <obj_property name="ObjectShortName">AluOpCode[3:0]</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" type="array" fp_name="/alu_tb/AluOut">
+      <obj_property name="ElementShortName">AluOut[7:0]</obj_property>
+      <obj_property name="ObjectShortName">AluOut[7:0]</obj_property>
+   </wvobject>
+</wave_config>

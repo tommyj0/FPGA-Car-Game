@@ -21,7 +21,7 @@
 
 
 module LED_Driver(
-        // Standard Inputs
+    // Standard Inputs
     input           RESET,
     input           CLK,
     // Bus I/O
@@ -32,6 +32,7 @@ module LED_Driver(
     output    [15:0]    LEDS
 );
 
+// RAM address parameters
 parameter RAMBaseAddr = 8'hC0;
 parameter RAMSize = 'h2;
 
@@ -46,12 +47,12 @@ assign BufferedBusData = BUS_DATA;
 //single port ram 
 always@(posedge CLK)
 begin
-    // Brute-force RAM address decoding. Think of a simpler way...
+    // Address decode
     if ((BUS_ADDR >= RAMBaseAddr) & (BUS_ADDR < RAMBaseAddr + RAMSize)) 
     begin
-        if(BUS_WE) 
+        if(BUS_WE) // check that the bus is in write mode
         begin
-            case(BUS_ADDR)
+            case(BUS_ADDR) // Select address based on 
                 8'hC0: Mem[7:0] <= BufferedBusData;
                 8'hC1: Mem[15:8] <= BufferedBusData;
             endcase

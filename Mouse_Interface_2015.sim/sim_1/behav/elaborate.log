@@ -1,34 +1,13 @@
 Vivado Simulator 2015.2
 Copyright 1986-1999, 2001-2015 Xilinx, Inc. All Rights Reserved.
-Running: /tools/Xilinx/Vivado/2015.2/bin/unwrapped/lnx64.o/xelab -wto 37719d53b4df4aa188d7bb80a0df1ea5 --debug typical --relax --mt 8 --include ../../../Mouse_Interface_2015.srcs/sources_1/ip/ila_0/ila_v5_1/hdl/verilog --include ../../../Mouse_Interface_2015.srcs/sources_1/ip/ila_0/ltlib_v1_0/hdl/verilog --include ../../../Mouse_Interface_2015.srcs/sources_1/ip/ila_0/xsdbs_v1_0/hdl/verilog -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot processor_tb_behav xil_defaultlib.processor_tb xil_defaultlib.glbl -log elaborate.log 
+Running: /tools/Xilinx/Vivado/2015.2/bin/unwrapped/lnx64.o/xelab -wto 37719d53b4df4aa188d7bb80a0df1ea5 --debug typical --relax --mt 8 --include ../../../Mouse_Interface_2015.srcs/sources_1/ip/ila_0/ila_v5_1/hdl/verilog --include ../../../Mouse_Interface_2015.srcs/sources_1/ip/ila_0/ltlib_v1_0/hdl/verilog --include ../../../Mouse_Interface_2015.srcs/sources_1/ip/ila_0/xsdbs_v1_0/hdl/verilog -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot alu_tb_behav xil_defaultlib.alu_tb xil_defaultlib.glbl -log elaborate.log 
 Using 8 slave threads.
 Starting static elaboration
-WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 1 for port DOT_IN [/home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.srcs/sources_1/new/seg7_Driver.v:95]
-WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 2 for port SENS_CTRL [/home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.srcs/sim_1/new/processor_tb.v:104]
-WARNING: [VRFC 10-278] actual bit length 1 differs from formal bit length 3 for port BTNS [/home/tommyj/AMD_FPGA/Mouse_Interface_2015/Mouse_Interface_2015.srcs/sources_1/new/Mouse_Driver.v:99]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
 Compiling module xil_defaultlib.ALU
-Compiling module xil_defaultlib.Processor
-Compiling module xil_defaultlib.MouseCounter(WIDTH=20,MAX=10000)
-Compiling module xil_defaultlib.MouseCounter(WIDTH=2,MAX=3)
-Compiling module xil_defaultlib.seg7decoder
-Compiling module xil_defaultlib.mux_4x1
-Compiling module xil_defaultlib.seg7_Driver
-Compiling module xil_defaultlib.RAM
-Compiling module xil_defaultlib.ROM
-Compiling module xil_defaultlib.MouseCounter(WIDTH=27,MAX=100000...
-Compiling module xil_defaultlib.MouseMasterSM
-Compiling module xil_defaultlib.MouseCounter(WIDTH=14,MAX=15000)
-Compiling module xil_defaultlib.MouseTransmitter
-Compiling module xil_defaultlib.MouseCounter(WIDTH=27,MAX=100000...
-Compiling module xil_defaultlib.MouseReceiver
-Compiling module xil_defaultlib.MouseCounter(WIDTH=8,MAX=100)
-Compiling module xil_defaultlib.ila_0
-Compiling module xil_defaultlib.MouseTransceiver
-Compiling module xil_defaultlib.Mouse_Driver
-Compiling module xil_defaultlib.processor_tb
+Compiling module xil_defaultlib.alu_tb
 Compiling module xil_defaultlib.glbl
-Built simulation snapshot processor_tb_behav
+Built simulation snapshot alu_tb_behav

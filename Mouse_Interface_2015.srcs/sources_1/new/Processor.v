@@ -91,6 +91,7 @@ assign AluIn_B = CurrImmMode ? ProgMemoryOut : CurrRegB;
 // else: set to top 4 bits of ProgMemory Out
 assign AluOpCode = CurrImmMode ? CurrImmOpCode : ProgMemoryOut[7:4];
 
+// ALU instantiation
 ALU ALU0(
     //standard signals
     .CLK(CLK),
@@ -142,65 +143,58 @@ DO_MATHS_OPP_SAVE_IN_A = 8'h30, //The result of maths op. is available, save it 
 DO_MATHS_OPP_SAVE_IN_B = 8'h31, //The result of maths op. is available, save it to Reg B.
 DO_MATHS_OPP_0 = 8'h32, //wait for new op address to settle. end op.
 // START
-IF_A_EQUALITY_B_GOTO = 8'h40, // 
-IF_A_EQUALITY_B_GOTO_0 = 8'h41, // 
-IF_A_EQUALITY_B_GOTO_1 = 8'h42, // 
-IF_A_EQUALITY_B_GOTO_2 = 8'h43, // 
-GOTO = 8'h50,
-GOTO_0 = 8'h51,
-GOTO_1 = 8'h52,
-FUNCTION_START = 8'h60,
-FUNCTION_START_0 = 8'h61,
-FUNCTION_START_1 = 8'h62,
-RETURN = 8'h70,
-RETURN_0 = 8'h71,
+IF_A_EQUALITY_B_GOTO = 8'h40, // check equality return, wait for ProgMemory to settle
+IF_A_EQUALITY_B_GOTO_0 = 8'h41, // assign PC to ProgMemory
+IF_A_EQUALITY_B_GOTO_1 = 8'h42, // wait for PC to settle
+GOTO = 8'h50, // wait for memory to settle
+GOTO_0 = 8'h51, // assign ProgCounter to memory
+GOTO_1 = 8'h52, // wait for ProgCounte to settle
+FUNCTION_START = 8'h60, // set ProgContext to PC + 2, wait for ProgMemory to settle
+FUNCTION_START_0 = 8'h61, // Set PC to ProgMemory
+FUNCTION_START_1 = 8'h62, // wait for PC to settle
+RETURN = 8'h70, // set PC = ProgContext
+RETURN_0 = 8'h71, // wait for PC to settle
 DE_REFERENCE_A = 8'h80, // Wait to find what address to read, save reg select
 DE_REFERENCE_B = 8'h81, // Wait to find what address to read, save reg select
 DE_REFERENCE_0 = 8'h82, // Set BUS_ADDR to designated adress, wait - Increments program counter by 2. Reset Offset
 DE_REFERENCE_1 = 8'h83, // Write memory output to chosen register, end op
-DO_IMM_OPP_SAVE_IN_A = 8'h90, //The result of maths op. is available, save it to Reg A.
-DO_IMM_OPP_SAVE_IN_B = 8'h91, //The result of maths op. is available, save it to Reg B.
-DO_IMM_OPP_0 = 8'h92, //wait for new op address to settle. end op.
-DO_IMM_OPP_1 = 8'h93, //wait for new op address to settle. end op.
-DO_IMM_OPP_2 = 8'h94; //wait for new op address to settle. end op.
+DO_IMM_OPP_SAVE_IN_A = 8'h90, //Start Imm Math Op for Reg A
+DO_IMM_OPP_SAVE_IN_B = 8'h91, //Start Imm Math Op for Reg A
+DO_IMM_OPP_0 = 8'h92, // Update PC, wait for ALU Result 
+DO_IMM_OPP_1 = 8'h93; // Assign Result to corresponding Reg, exit Imm mode
 
-// END
-/*
-Complete the above parameter list for In/Equality, Goto Address, Goto Idle, function start, Return from
-function, and Dereference operations.
-*/
 //Sequential part of the State Machine.
 reg [7:0] CurrState, NextState;
-always@(posedge CLK) 
-begin
+always@(posedge CLK)
+begin // why were these blocking assignments???
     if(RESET) begin
-        CurrState = 8'h00;
-        CurrProgCounter = 8'h00;
-        CurrProgCounterOffset = 2'h0;
-        CurrBusAddr = 8'hFF; //Initial instruction after reset.
-        CurrBusDataOut = 8'h00;
-        CurrBusDataOutWE = 1'b0;
-        CurrRegA = 8'h00;
-        CurrRegB = 8'h00;
-        CurrRegSelect = 1'b0;
-        CurrProgContext = 8'h00;
-        CurrInterruptAck = 2'b00;
-        CurrImmOpCode = 4'h0;
-        CurrImmMode = 1'h0;
+        CurrState <= 8'h00;
+        CurrProgCounter <= 8'h00;
+        CurrProgCounterOffset <= 2'h0;
+        CurrBusAddr <= 8'hFF; //Initial instruction after reset.
+        CurrBusDataOut <= 8'h00;
+        CurrBusDataOutWE <= 1'b0;
+        CurrRegA <= 8'h00;
+        CurrRegB <= 8'h00;
+        CurrRegSelect <= 1'b0;
+        CurrProgContext <= 8'h00;
+        CurrInterruptAck <= 2'b00;
+        CurrImmOpCode <= 4'h0;
+        CurrImmMode <= 1'h0;
     end else begin
-        CurrState = NextState;
-        CurrProgCounter = NextProgCounter;
-        CurrProgCounterOffset = NextProgCounterOffset;
-        CurrBusAddr = NextBusAddr;
-        CurrBusDataOut = NextBusDataOut;
-        CurrBusDataOutWE = NextBusDataOutWE;
-        CurrRegA = NextRegA;
-        CurrRegB = NextRegB;
-        CurrRegSelect = NextRegSelect;
-        CurrProgContext = NextProgContext;
-        CurrInterruptAck = NextInterruptAck;
-        CurrImmOpCode = NextImmOpCode;
-        CurrImmMode = NextImmMode;
+        CurrState <= NextState;
+        CurrProgCounter <= NextProgCounter;
+        CurrProgCounterOffset <= NextProgCounterOffset;
+        CurrBusAddr <= NextBusAddr;
+        CurrBusDataOut <= NextBusDataOut;
+        CurrBusDataOutWE <= NextBusDataOutWE;
+        CurrRegA <= NextRegA;
+        CurrRegB <= NextRegB;
+        CurrRegSelect <= NextRegSelect;
+        CurrProgContext <= NextProgContext;
+        CurrInterruptAck <= NextInterruptAck;
+        CurrImmOpCode <= NextImmOpCode;
+        CurrImmMode <= NextImmMode;
     end
 end
 
@@ -487,10 +481,12 @@ always@* begin
         end
         ///////////////////////////////////////////////////////////////////////////////////////
         //DO_IMM_OPP_SAVE_IN_A : here starts the DoMathsImm operational pipeline.
+        // Saving an immediate in the instruction saves at least 1b in ROM and 1b in RAM:
+        // {ldb b ADDR, add a} = 3b  compared to   {add a IMM} = 2b
         // Reg A and Reg B must already be set to the desired values. The MSBs of the
-        // Operation type determines the maths operation type. THe ALUOpCode is saved so we have 
-        // time to read the immediate. 
-        // Enter Immediate Mode.
+        // Operation type determines the maths operation type. The ALUOpCode is saved so we have 
+        // time to read the immediate and perform the operation.
+        // Enter Immediate Mode, select a register
         DO_IMM_OPP_SAVE_IN_A: 
         begin
             NextState = DO_IMM_OPP_0;
@@ -499,7 +495,7 @@ always@* begin
             NextImmMode = 'b1;
         end
         //DO_IMM_OPP_SAVE_IN_B : here starts the DoMathsImm operational pipeline
-        // Same as A
+        // Same as above, but select B instead
         DO_IMM_OPP_SAVE_IN_B: 
         begin
             NextState = DO_IMM_OPP_0;
@@ -515,6 +511,7 @@ always@* begin
             NextProgCounter = CurrProgCounter + 2;
             NextState = DO_IMM_OPP_1;
         end
+        
         // save result and leave Immediate Mode
         DO_IMM_OPP_1: 
         begin
@@ -525,13 +522,9 @@ always@* begin
             else
                 NextRegB = AluOut;
         end
+        
         //////////////////////////// END ////////////////////////////////////
-
-        /*
-        Complete the above case statement for In/Equality, Goto Address, Goto Idle, function start, Return
-        from
-        function, and Dereference operations.
-        */
+        
     endcase
 end
 

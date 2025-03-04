@@ -35,23 +35,19 @@ module top(
 
 );
 
-
+// Data Bus wires
 wire [7:0] BUS_DATA;
 wire [7:0] BUS_ADDR;
 wire        BUS_WE;
 
+// 
 wire [7:0] ROM_ADDRESS;
 wire [7:0] ROM_DATA;
 
 wire [1:0] BUS_INTERRUPTS_RAISE;
 wire [1:0] BUS_INTERRUPTS_ACK;
 
-
-
-//assign LEDX = MouseRegX;
-//assign LEDY = MouseRegY;
-//assign LEDS = {XS,YS,4'h0};
-
+// Processor instantiation
 Processor u_Processor(
     //Standard Signals
     .CLK(CLK),
@@ -68,6 +64,7 @@ Processor u_Processor(
     .BUS_INTERRUPTS_ACK(BUS_INTERRUPTS_ACK)
 );
 
+// Timer instantiation
 Timer u_Timer (
     //standard signals
     .CLK(CLK),
@@ -80,7 +77,7 @@ Timer u_Timer (
     .BUS_INTERRUPT_ACK(BUS_INTERRUPTS_ACK[1])
 );
 
-
+// seg7 Driver instantiation
 seg7_Driver u_seg7_Driver (
         // Standard Inputs
     .RESET(RESET),
@@ -94,6 +91,7 @@ seg7_Driver u_seg7_Driver (
     .HEX_OUT(SEG_OUT)
 );
 
+// Mouse Driver instantiation
 Mouse_Driver u_Mouse_Driver(
     // Standard Inputs
     .RESET(RESET),
@@ -110,6 +108,7 @@ Mouse_Driver u_Mouse_Driver(
     .DATA_MOUSE(DATA_MOUSE)
 );
 
+// LED Driver instantiations
 LED_Driver u_LED_Driver(
     // Standard Inputs
     .RESET(RESET),
@@ -122,6 +121,7 @@ LED_Driver u_LED_Driver(
     .LEDS(LEDS)
 );
 
+// RAM instantiation
 RAM u_RAM (
     //standard signals
     .CLK(CLK),
@@ -131,7 +131,7 @@ RAM u_RAM (
     .BUS_WE(BUS_WE)
 );
 
-
+// ROM instantiation
 ROM u_ROM(
     //standard signals
     .CLK(CLK),
