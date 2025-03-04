@@ -31,8 +31,7 @@ module top(
     // IO - 7-Seg
     output [3:0]    SEG_SELECT_OUT,
     output [7:0]    SEG_OUT,
-    output [5:0]    LEDS,
-    output [2:0]    MBTNS
+    output [15:0]    LEDS
 
 );
 
@@ -48,9 +47,10 @@ wire [1:0] BUS_INTERRUPTS_RAISE;
 wire [1:0] BUS_INTERRUPTS_ACK;
 
 
+
 //assign LEDX = MouseRegX;
 //assign LEDY = MouseRegY;
-assign LEDS = {XS,YS,4'h0};
+//assign LEDS = {XS,YS,4'h0};
 
 Processor u_Processor(
     //Standard Signals
@@ -107,11 +107,19 @@ Mouse_Driver u_Mouse_Driver(
     .BUS_INTERRUPT_RAISE(BUS_INTERRUPTS_RAISE[0]),
     // IO - Mouse Side
     .CLK_MOUSE(CLK_MOUSE),
-    .DATA_MOUSE(DATA_MOUSE),
-    //     Mouse data information
-    .XS(XS),
-    .YS(YS),
-    .BTNS(MBTNS)
+    .DATA_MOUSE(DATA_MOUSE)
+);
+
+LED_Driver u_LED_Driver(
+    // Standard Inputs
+    .RESET(RESET),
+    .CLK(CLK),
+    // Bus I/O
+    .BUS_ADDR(BUS_ADDR),
+    .BUS_DATA(BUS_DATA),
+    .BUS_WE(BUS_WE),
+    // LED outputs
+    .LEDS(LEDS)
 );
 
 RAM u_RAM (

@@ -29,7 +29,7 @@ module MouseTransceiver(
     inout           CLK_MOUSE,
     inout           DATA_MOUSE,
 //     Mouse data information
-    output [3:0]    MouseStatus,
+    output [7:0]    MouseStatus,
     output [7:0]    MouseXout,
     output [7:0]    MouseYout,
     output          XS,
@@ -86,7 +86,7 @@ assign MouseXout = MouseX >> SENS_CTRL;
 assign MouseYout = MouseY >> SENS_CTRL;
 assign XS = XSIGN;
 assign YS = YSIGN;
-assign MouseStatus = MASTER_STATE_CODE;
+assign MouseStatus = MOUSE_STATUS;
 assign BTNS = {MOUSE_STATUS[0],MOUSE_STATUS[2],MOUSE_STATUS[1]};
 
 assign XSIGN = MOUSE_STATUS[4];

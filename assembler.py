@@ -94,10 +94,10 @@ def write_math_instr(file_p,line,label=''): # handle math type
     return
   check_token_num(line,3)
   if is_int(line[2]):
-    write_byte(file_p,int(line[2],0))
+    write_byte(file_p,int(line[2],base=16))
     file_p.write("\n")
   else:
-    raise Exception("Math Imm requires an int silly")
+    raise Exception("Math Imm requires an int")
 
 def write_mem_instr(file_p,line,label=''): # handle mem access type
   check_dest_reg(line[1])

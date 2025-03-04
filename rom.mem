@@ -4,15 +4,15 @@
 05  //  add b
 24  //  mul a
 25  //  mul b
-e4  //  or a
-de  //  and b 0
+ed  //  or a ff
+ff
+dd  //  and a 0
 00
+ed  //  or a f
+0f
 c5  //  not b
-f4  //  xor a
-08
-08
-08
-08
+fd  //  xor a ff
+ff
 08
 08
 08

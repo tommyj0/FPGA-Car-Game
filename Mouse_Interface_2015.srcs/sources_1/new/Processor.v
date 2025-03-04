@@ -78,7 +78,8 @@ wire [3:0] AluOpCode;
 reg NextImmMode, CurrImmMode;
 reg [3:0] NextImmOpCode, CurrImmOpCode;
 
-assign AluIn_A = CurrImmMode ?  CurrRegSelect ? CurrRegA : CurrRegB : CurrRegA;
+
+assign AluIn_A = CurrImmMode ?  CurrRegSelect ? CurrRegB : CurrRegA : CurrRegA;
 assign AluIn_B = CurrImmMode ? ProgMemoryOut : CurrRegB;
 assign AluOpCode = CurrImmMode ? CurrImmOpCode : ProgMemoryOut[7:4];
 
@@ -509,7 +510,7 @@ always@* begin
         begin
             NextState = CHOOSE_OPP;
             NextImmMode = 'b0;
-            if (~CurrRegSelect)
+            if (!CurrRegSelect)
                 NextRegA = AluOut;
             else
                 NextRegB = AluOut;

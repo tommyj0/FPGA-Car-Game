@@ -5,7 +5,8 @@ inca b
 add b
 mul a
 mul b
-or a
-and b 0
+or a ff
+and a 0
+or a f
 not b
-xor a
+xor a ff

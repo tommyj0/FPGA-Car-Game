@@ -33,11 +33,7 @@ module Mouse_Driver(
     input           BUS_INTERRUPT_ACK,
     // IO - Mouse Side
     inout           CLK_MOUSE,
-    inout           DATA_MOUSE,
-    //     Mouse data information
-    output          XS,
-    output          YS,
-    output [2:0]    BTNS
+    inout           DATA_MOUSE
     
 );
 
@@ -51,7 +47,7 @@ reg [7:0]   Out;
 reg         RAMBusWE;
 
 wire INTERRUPT_RAISE;
-wire [3:0]  MouseStatus;
+wire [7:0]  MouseStatus;
 wire [7:0]  MouseX;
 wire [7:0]  MouseY;
 

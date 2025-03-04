@@ -1,7 +1,7 @@
 Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2015.2 (lin64) Build 1266856 Fri Jun 26 16:35:25 MDT 2015
-| Date             : Mon Mar  3 22:55:27 2025
+| Date             : Tue Mar  4 10:20:19 2025
 | Host             : tommyj-Vivobook-ASUSLaptop-X1505VA-X1505VA running 64-bit Ubuntu 24.04.2 LTS
 | Command          : report_power -file top_power_routed.rpt -pb top_power_summary_routed.pb
 | Design           : top
@@ -50,18 +50,18 @@ Table of Contents
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
 | Clocks                   |    <0.001 |        4 |       --- |             --- |
-| Slice Logic              |     0.002 |     7076 |       --- |             --- |
-|   LUT as Logic           |     0.002 |     2466 |     20800 |           11.86 |
-|   Register               |    <0.001 |     3038 |     41600 |            7.30 |
+| Slice Logic              |     0.002 |     7085 |       --- |             --- |
+|   LUT as Logic           |     0.002 |     2463 |     20800 |           11.84 |
+|   Register               |    <0.001 |     3055 |     41600 |            7.34 |
 |   CARRY4                 |    <0.001 |      154 |      8150 |            1.89 |
 |   LUT as Distributed RAM |    <0.001 |       24 |      9600 |            0.25 |
-|   F7/F8 Muxes            |    <0.001 |      145 |     32600 |            0.44 |
+|   F7/F8 Muxes            |    <0.001 |      139 |     32600 |            0.43 |
 |   LUT as Shift Register  |    <0.001 |      223 |      9600 |            2.32 |
 |   BUFG                   |    <0.001 |        1 |        32 |            3.13 |
-|   Others                 |     0.000 |      517 |       --- |             --- |
-| Signals                  |     0.003 |     5004 |       --- |             --- |
+|   Others                 |     0.000 |      518 |       --- |             --- |
+| Signals                  |     0.003 |     5037 |       --- |             --- |
 | Block RAM                |    <0.001 |     46.5 |        50 |           93.00 |
-| I/O                      |    <0.001 |       27 |       106 |           25.47 |
+| I/O                      |    <0.001 |       34 |       106 |           32.08 |
 | Static Power             |     0.074 |          |           |                 |
 | Total                    |     0.080 |          |           |                 |
 +--------------------------+-----------+----------+-----------+-----------------+
@@ -217,6 +217,7 @@ Table of Contents
 |         U_STAT                                                            |    <0.001 |
 |         U_SYNC                                                            |    <0.001 |
 |       N_EXT_BSCAN.bscan_inst                                              |    <0.001 |
+|   u_LED_Driver                                                            |    <0.001 |
 |   u_Mouse_Driver                                                          |     0.003 |
 |     u_MouseTransceiver                                                    |     0.003 |
 |       chopper                                                             |    <0.001 |
