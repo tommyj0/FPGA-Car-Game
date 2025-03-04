@@ -71,16 +71,24 @@ assign ProgMemoryOut = ROM_DATA;
 
 //Instantiate the ALU
 //The processor has an integrated ALU that can do several different operations
+// Define ALU I/O
 wire [7:0] AluOut;
 wire [7:0] AluIn_A;
 wire [7:0] AluIn_B;
 wire [3:0] AluOpCode;
-reg NextImmMode, CurrImmMode;
+// Registers selecting the Immediate Mode
+reg NextImmMode, CurrImmMode; 
+// Registers saving the OpCode for Immediate Mode operations
 reg [3:0] NextImmOpCode, CurrImmOpCode;
 
-
+// If in Immediate Mode: set IN_A to RegA or RegB depending on RegSelect
+// else: set IN_A to RegA
 assign AluIn_A = CurrImmMode ?  CurrRegSelect ? CurrRegB : CurrRegA : CurrRegA;
+// If in Immediate Mode: set IN_B to Immediate value (ProgMemoryOut)
+// else: set IN_B to RegB
 assign AluIn_B = CurrImmMode ? ProgMemoryOut : CurrRegB;
+// If in Immediate Mode: set AluOpCode to cached OpCode
+// else: set to top 4 bits of ProgMemory Out
 assign AluOpCode = CurrImmMode ? CurrImmOpCode : ProgMemoryOut[7:4];
 
 ALU ALU0(
@@ -480,18 +488,18 @@ always@* begin
         ///////////////////////////////////////////////////////////////////////////////////////
         //DO_IMM_OPP_SAVE_IN_A : here starts the DoMathsImm operational pipeline.
         // Reg A and Reg B must already be set to the desired values. The MSBs of the
-        // Operation type determines the maths operation type. At this stage the result is
-        // ready to be collected from the ALU.
+        // Operation type determines the maths operation type. THe ALUOpCode is saved so we have 
+        // time to read the immediate. 
+        // Enter Immediate Mode.
         DO_IMM_OPP_SAVE_IN_A: 
         begin
             NextState = DO_IMM_OPP_0;
             NextRegSelect = 'b0;
             NextImmOpCode = ProgMemoryOut[7:4];
             NextImmMode = 'b1;
-//            NextProgCounter = CurrProgCounter + 2;
         end
         //DO_IMM_OPP_SAVE_IN_B : here starts the DoMathsImm operational pipeline
-        //when the result will go into reg B.
+        // Same as A
         DO_IMM_OPP_SAVE_IN_B: 
         begin
             NextState = DO_IMM_OPP_0;
@@ -499,13 +507,15 @@ always@* begin
             NextImmOpCode = ProgMemoryOut[7:4];
             NextImmMode = 'b1;
         end
-        //Wait state for new prog address to settle.
+        // Update Program Mem
+        // Wait for immediate to settle
+        // Wait for result
         DO_IMM_OPP_0: 
         begin
             NextProgCounter = CurrProgCounter + 2;
             NextState = DO_IMM_OPP_1;
         end
-        //Wait state for new prog address to settle.
+        // save result and leave Immediate Mode
         DO_IMM_OPP_1: 
         begin
             NextState = CHOOSE_OPP;

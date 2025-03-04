@@ -1,4 +1,5 @@
 VGA_INT: 0x00
+MOUSE_INT: 0x00
 inca a
 inca a
 inca b
@@ -10,3 +11,4 @@ and a 0
 or a f
 not b
 xor a ff
+sub a 0d

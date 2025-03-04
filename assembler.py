@@ -242,6 +242,8 @@ with open(rom_fp, "r") as rom_f:
     modified_lines.append(" ".join(parts))  # Rejoin and store the modified line
   vga_int = hex(label_lut["VGA_INT"])[2:]
   modified_lines[0xFE] = f"0{vga_int}" if len(vga_int) == 1 else vga_int  # set the VGA interrupt address
+  mouse_int = hex(label_lut["MOUSE_INT"])[2:]
+  modified_lines[0xFF] = f"0{mouse_int}" if len(mouse_int) == 1 else mouse_int  # set the VGA interrupt address
 
 with open(rom_fp, "w") as rom_f:
   rom_f.write("\n".join(modified_lines) + "\n")

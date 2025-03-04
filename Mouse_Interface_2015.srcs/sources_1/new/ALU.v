@@ -21,15 +21,16 @@
 
 
 module ALU(
-//standard signals
-input CLK,
-input RESET,
-//I/O
-input [7:0] IN_A, 
-input [7:0] IN_B, 
-input [3:0] ALU_Op_Code, 
-output [7:0] OUT_RESULT
+    //standard signals
+    input CLK,
+    input RESET,
+    //I/O
+    input [7:0] IN_A, 
+    input [7:0] IN_B, 
+    input [3:0] ALU_Op_Code, 
+    output [7:0] OUT_RESULT
 );
+
 reg [7:0] Out;
 //Arithmetic Computation
 always@(posedge CLK)
