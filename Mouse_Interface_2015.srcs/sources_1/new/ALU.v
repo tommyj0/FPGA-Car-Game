@@ -47,6 +47,12 @@ begin
             4'h1: Out <= IN_A - IN_B;
             //Multiply A * B
             4'h2: Out <= IN_A * IN_B;
+            ////////////////////////////////////////////////////////////////////////////
+            // Implementation changed from original to shift by regB, rather than by 1
+            // This is useful in cases where multiple shifts must occur, which can now be 
+            // done in much fewer lines.
+            // The original functionality is preserved through the immediate maths mode,
+            // albeit using one more byte than before.
             //Shift Left A << B
             4'h3: Out <= IN_A << IN_B;
             //Shift Right A >> B

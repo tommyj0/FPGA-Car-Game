@@ -49,9 +49,14 @@ task ALU_CHECK;
             4'h1: Out = IN_A - IN_B;
             //Multiply A * B
             4'h2: Out = IN_A * IN_B;
-            //Shift Left A << 1
-            4'h3: Out = IN_A << IN_B;
-            //Shift Right A >> 1
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Implementation of shifts have changed slightly from the original, instead of shifting one it shifts B.
+            // the additional implementation of immediate math operations retains the "shift by one" functionality,
+            // albeit using an extra immediate byte. This slight tradeoff is worth it when considering the VGA section
+            // where shift by 7 is common
+            //Shift Left A << B
+            4'h3: Out = IN_A << IN_B; 
+            //Shift Right A >> B
             4'h4: Out = IN_A >> IN_B;
             //Increment A+1
             4'h5: Out = IN_A + 1'b1;
@@ -110,6 +115,7 @@ begin
         AluIn_B = $random;
         #20;
         ALU_CHECK(AluIn_A,AluIn_B,AluOpCode,Out);
+        
         if (AluOut == Out)
             tests_passed = tests_passed + 1;
         AluOpCode = AluOpCode + 1;

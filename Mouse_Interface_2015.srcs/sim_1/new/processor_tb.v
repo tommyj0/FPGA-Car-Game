@@ -111,10 +111,6 @@ Mouse_Driver u_Mouse_Driver(
 //    // IO - Mouse Side
 //    .CLK_MOUSE(CLK_MOUSE),
 //    .DATA_MOUSE(DATA_MOUSE),
-//    //     Mouse data information
-//    .XS(XS),
-//    .YS(YS),
-//    .BTNS(MBTNS)
 );
 
 endmodule

@@ -9,7 +9,7 @@ LEDS_HI: 0xC1
 SEG_LO: 0xD0
 SEG_HI: 0xD1
 
-VGA_INT: 0x0 // set VGA interrupt to 0 (not needed)
+VGA_INT: 0x00 // set VGA interrupt to 0 (not needed)
 
 // Start Code and set Mouse Interrupt address
 MOUSE_INT: ldb a MOUSE_X // load mousex

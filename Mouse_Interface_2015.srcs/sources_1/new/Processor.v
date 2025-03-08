@@ -76,17 +76,30 @@ wire [7:0] AluOut;
 wire [7:0] AluIn_A;
 wire [7:0] AluIn_B;
 wire [3:0] AluOpCode;
+
+/////////////////////////////////////////////////////////////////////////////////
+//////////////////////// IMMEDIATE MATH MODE ////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+// Additional logic is added below in order to implment immediate math operations while
+// not modifying the ALU itself 
+// Saving an immediate in the instruction saves at least 1b in ROM and 1b in RAM:
+// {ldb b ADDR, add a} = 3b  compared to   {add a IMM} = 2b
 // Registers selecting the Immediate Mode
 reg NextImmMode, CurrImmMode; 
 // Registers saving the OpCode for Immediate Mode operations
 reg [3:0] NextImmOpCode, CurrImmOpCode;
 
+// 2x1 Mux: Input A
 // If in Immediate Mode: set IN_A to RegA or RegB depending on RegSelect
 // else: set IN_A to RegA
 assign AluIn_A = CurrImmMode ?  CurrRegSelect ? CurrRegB : CurrRegA : CurrRegA;
+
+// 2x1 Mux: Input B 
 // If in Immediate Mode: set IN_B to Immediate value (ProgMemoryOut)
 // else: set IN_B to RegB
 assign AluIn_B = CurrImmMode ? ProgMemoryOut : CurrRegB;
+
+// 2x1 Mux: Alu Op Code
 // If in Immediate Mode: set AluOpCode to cached OpCode
 // else: set to top 4 bits of ProgMemory Out
 assign AluOpCode = CurrImmMode ? CurrImmOpCode : ProgMemoryOut[7:4];
@@ -120,6 +133,8 @@ ALU ALU0(
 // 11: Return from function call
 // 12: Dereference A
 // 13: Dereference B
+// 14: Do immediate maths with the ALU, save result in reg A
+// 15: Do immediate maths with the ALU, save result in reg B
 
 parameter [7:0] //Program thread selection
 IDLE = 8'hF0, //Waits here until an interrupt wakes up the processor.
@@ -479,10 +494,9 @@ always@* begin
             else
                 NextRegB = BusDataIn;
         end
+        
         ///////////////////////////////////////////////////////////////////////////////////////
         //DO_IMM_OPP_SAVE_IN_A : here starts the DoMathsImm operational pipeline.
-        // Saving an immediate in the instruction saves at least 1b in ROM and 1b in RAM:
-        // {ldb b ADDR, add a} = 3b  compared to   {add a IMM} = 2b
         // Reg A and Reg B must already be set to the desired values. The MSBs of the
         // Operation type determines the maths operation type. The ALUOpCode is saved so we have 
         // time to read the immediate and perform the operation.

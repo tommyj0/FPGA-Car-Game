@@ -1,20 +1,20 @@
-00  // MOUSE_INT: ldb a MOUSE_X
-a1
-01  //  ldb b MOUSE_Y
-a2
-02  //  stb a SEG_LO
-d0
-03  //  stb b SEG_HI
-d1
-00  //  ldb a MOUSE_STATUS
-a0
-02  //  stb a LEDS_LO
-c0
-08  // END: idle
-08
-08
-08
-08
+54  // START: inca a
+54  //  inca a
+55  //  inca b
+05  //  add b
+24  //  mul a
+25  //  mul b
+ed  //  or a 0xff
+ff
+dd  //  and a 0x0
+00
+ed  //  or a 0x0f
+0f
+c5  //  not b
+fd  //  xor a ff
+ff
+1d  //  sub a 0d
+0d
 08
 08
 08

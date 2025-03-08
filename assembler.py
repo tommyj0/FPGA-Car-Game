@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
-# TODO implement labels, can't think of anything else 
+
+# assembler for FPGA Car Game
+
+# required to convert custom assembly into machine code
+# for usage and ISA wiki, **check the README**
+
+# labels are implemented for both data memory and instructions
+# instruciton labels are placed at the start of an instruciton:
+## LOOP: add a
+# data memory labels are placed on their own line with the assigned address:
+## MOUSE_STATUS: 0xA0
 
 import sys
 import re
@@ -55,7 +65,7 @@ def write_byte(file_p,num): # write instruction to machine code file
   if len(hex_token) == 1: # display 1 digit as 2 digit 
     file_p.write(f"0")
   file_p.write(f"{hex_token}")
-  global address_counter # too lazy to think of a nice way
+  global address_counter # too lazy to think of a nice way of doing this 
   address_counter += 1
   # print(f"wrote this {hex_token}")
 
