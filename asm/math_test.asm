@@ -10,7 +10,7 @@ mul a
 mul b
 // test imm & logic operations
 or a 0xff
-and a 0x0
+and a 0x00
 or a 0x0f 
 not b
 xor a ff

@@ -16,20 +16,24 @@ $b = 0
 # Simulate Math Operation - set the 'a' and 'b' registers accordingly
 # operation: the operation to perform
 # register: the register to store the result in
-def math_ops(operation, register)
+# TODO: add support for immediate values
+def math_ops(operation, register, immediate)
     result = 0
     
+    local_b = (immediate != nil) ? immediate : $b
+    local_a = ((immediate != nil) && (register == 'b')) ? $b : $a
+
     case(operation)
     when 'add'
-        result = $a + $b
+        result = local_a + local_b
     when 'sub'
-        result = $a - $b
+        result = local_a - local_b
     when 'mul'
-        result = $a * $b
+        result = local_a * local_b
     when 'sll'
-        result = $a << $b
+        result = local_a << local_b
     when 'srl'
-        result = $a >> $b
+        result = local_a >> local_b
     when 'inca'
         result = $a + 1
     when 'incb'
@@ -39,19 +43,19 @@ def math_ops(operation, register)
     when 'decb'
         result = $b - 1
     when 'eq'
-        result = $a == $b ? 1 : 0
+        result = local_a == local_b ? 1 : 0
     when 'gt'
-        result = $a > $b ? 1 : 0
+        result = local_a > local_b ? 1 : 0
     when 'lt'   
-        result = $a < $b ? 1 : 0
-    when 'not'
+        result = local_a < local_b ? 1 : 0
+    when 'not' # might be wrong but lazy
         result = $a ^ 0xFF
     when 'and'
-        result = $a & $b
+        result = local_a & local_b
     when 'or'
-        result = $a | $b
+        result = local_a | local_b
     when 'xor'
-        result = $a ^ $b
+        result = local_a ^ local_b
     else # shouldn't get here
         raise "Invalid operation"
     end
@@ -211,13 +215,16 @@ puts "Running #{$simulation_steps} steps of code..."
 # Run the code
 while(i < $simulation_steps)
     if ic >= code.length
+        puts "Finished executing after #{i} steps"
         break
     end
     line = code[ic]
     puts "#{line}" if $verbose
+    immediate = nil
     data = line.split(' ')
     if math_ops.include?(data[0])
-        math_ops(data[0], data[1])
+        immediate = data[2].to_i(16) if data[2] && data[2].match(/[0-9A-F]{2}/)
+        math_ops(data[0], data[1], immediate)
         puts "\tA: #{$a} B: #{$b}" if $verbose
         ic+=1
     elsif mem_ops.include?(data[0])
@@ -239,7 +246,6 @@ while(i < $simulation_steps)
         end
         ic = new_ic
     else
-        puts "\t this line #{data}"
         raise "Invalid operation" 
     end
 
